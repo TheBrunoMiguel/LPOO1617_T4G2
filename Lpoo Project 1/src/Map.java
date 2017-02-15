@@ -1,7 +1,7 @@
 
 public class Map 
 {
-	private char[][] map = new char [10][10];   //map[columns][lines]
+	char map[][] = new char [10][10];   //map[columns][lines]
 	map[0][0] = 'X'; map[1][0] = 'X'; map[2][0] = 'X'; map[3][0] = 'X'; map[4][0] = 'X'; map[5][0] = 'X'; map[6][0] = 'X';
 	map[0][1] = 'X'; map[1][1] = 'H'; map[2][1] = '0'; map[3][1] = '0'; map[4][1] = 'I'; map[5][1] = '0'; map[6][1] = 'X';
 	map[0][2] = 'X'; map[1][2] = 'X'; map[2][2] = 'X'; map[3][2] = '0'; map[4][2] = 'X'; map[5][2] = 'X'; map[6][2] = 'X';
@@ -35,7 +35,7 @@ public class Map
 				System.out.println(map[j][i]);
 			}
 			System.out.println("\n");
+		}
 	}
 	
-	}
 }
