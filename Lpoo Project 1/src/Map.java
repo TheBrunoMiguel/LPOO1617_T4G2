@@ -1,7 +1,21 @@
 
 public class Map 
 {
-	char map[][] = new char [10][10];   //map[columns][lines]
+	//public char map[][] = new char[10][10];   //map[columns][lines]
+	
+	public char map[][] = {  {'X', 'X', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X'}, {'X', 'H', 'X', '0', 'X', '0', '0', 'X', '0', 'X'},
+							 {'X', '0', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+							 {'X', 'I', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', 'X', '0', 'X', '0', '0', 'X', '0', 'X'}, 
+							 {'X', 'X', 'X', 'X', 'X', '0', '0', 'X', 'X', 'X'}, {'X', '0', '0', '0', '0', '0', '0', 'X', 'k', 'X'}, 
+							 {'X', 'G', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+	/*
+	public char map[][] = {  {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}, {'X', 'H', '0', '0', 'I', '0', 'X', '0', 'G', 'X'},
+							 {'X', 'X', 'X', '0', 'I', 'X', 'X', '0', 'G', 'X'}, {'X', '0', 'I', '0', 'I', '0', 'X', '0', '0', 'X'}, 
+							 {'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X'}, {'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+							 {'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', 'X', 'X', '0', 'X', 'X', 'X', 'X', '0', 'X'}, 
+							 {'X', '0', 'I', '0', 'I', '0', 'X', 'k', '0', 'X'}, {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'} };
+	*/
+/*
 	map[0][0] = 'X'; map[1][0] = 'X'; map[2][0] = 'X'; map[3][0] = 'X'; map[4][0] = 'X'; map[5][0] = 'X'; map[6][0] = 'X';
 	map[0][1] = 'X'; map[1][1] = 'H'; map[2][1] = '0'; map[3][1] = '0'; map[4][1] = 'I'; map[5][1] = '0'; map[6][1] = 'X';
 	map[0][2] = 'X'; map[1][2] = 'X'; map[2][2] = 'X'; map[3][2] = '0'; map[4][2] = 'X'; map[5][2] = 'X'; map[6][2] = 'X';
@@ -23,18 +37,25 @@ public class Map
 	map[7][7] = 'X'; map[8][7] = '0'; map[9][7] = 'X';
 	map[7][8] = 'k'; map[8][8] = '0'; map[9][8] = 'X';
 	map[7][9] = 'X'; map[8][9] = 'X'; map[9][9] = 'X';
-
-	
+*/
 	public void showMap()
 	{
 		for(int i = 0; i < 10; i++)
 		{
+			String Each_Line = " ";
 			for(int j = 0; j < 10; j++)
 			{
-				System.out.println(" ");
-				System.out.println(map[j][i]);
+				if(map[j][i] == '0')
+				{
+					Each_Line = Each_Line + " ";
+				}
+				else
+				{
+					Each_Line = Each_Line + map[j][i];
+				}
 			}
-			System.out.println("\n");
+			Each_Line = Each_Line + "\n";
+			System.out.println(Each_Line);
 		}
 	}
 	

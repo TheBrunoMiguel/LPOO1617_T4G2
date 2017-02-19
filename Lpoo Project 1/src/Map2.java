@@ -1,6 +1,14 @@
 public class Map2 
 {
-	char map2[][] = new char [9][9];   //map[columns][lines]
+	//char map2[][] = new char [9][9];   //map[columns][lines]
+	
+	public char map2[][] = { {'X', 'I', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', 'H', 'X'},
+							  {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+							  {'X', 'O', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+							  {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+							  {'X', 'k', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+	
+/*	
 	map[0][0] = 'X'; map[1][0] = 'X'; map[2][0] = 'X'; map[3][0] = 'X'; map[4][0] = 'X'; map[5][0] = 'X'; map[6][0] = 'X';
 	map[0][1] = 'I'; map[1][1] = '0'; map[2][1] = '0'; map[3][1] = '0'; map[4][1] = 'O'; map[5][1] = '0'; map[6][1] = '0';
 	map[0][2] = 'X'; map[1][2] = '0'; map[2][2] = '0'; map[3][2] = '0'; map[4][2] = '0'; map[5][2] = '0'; map[6][2] = '0';
@@ -23,6 +31,7 @@ public class Map2
 	map[7][8] = '0'; map[8][8] = '0'; map[9][8] = 'X';
 	map[7][9] = 'X'; map[8][9] = 'X'; map[9][9] = 'X';
 
+*/
 	
 	public void showMap2()
 	{
@@ -31,7 +40,14 @@ public class Map2
 			for(int j = 0; j < 10; j++)
 			{
 				System.out.println(" ");
-				System.out.println(map2[j][i]);
+				if(map2[j][i] == '0')
+				{
+					System.out.println(" ");
+				}
+				else
+				{
+					System.out.println(map2[j][i]);
+				}
 			}
 			System.out.println("\n");
 		}
