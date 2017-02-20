@@ -47,11 +47,11 @@ public class Map
 			{
 				if(map[j][i] == '0')
 				{
-					Each_Line = Each_Line + " ";
+					Each_Line = Each_Line + "  ";
 				}
 				else
 				{
-					Each_Line = Each_Line + map[j][i];
+					Each_Line = Each_Line + map[j][i] + " ";
 				}
 			}
 			Each_Line = Each_Line + "\n";

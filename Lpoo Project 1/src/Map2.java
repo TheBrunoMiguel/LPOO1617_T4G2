@@ -37,19 +37,20 @@ public class Map2
 	{
 		for(int i = 0; i < 10; i++)
 		{
+			String Each_Line = " ";
 			for(int j = 0; j < 10; j++)
 			{
-				System.out.println(" ");
 				if(map2[j][i] == '0')
 				{
-					System.out.println(" ");
+					Each_Line = Each_Line + "  ";
 				}
 				else
 				{
-					System.out.println(map2[j][i]);
+					Each_Line = Each_Line + map2[j][i] + " ";
 				}
 			}
-			System.out.println("\n");
+			Each_Line = Each_Line + "\n";
+			System.out.println(Each_Line);
 		}
 	}
 	
