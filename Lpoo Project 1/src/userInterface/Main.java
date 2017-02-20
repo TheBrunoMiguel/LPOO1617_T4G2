@@ -1,83 +1,24 @@
+package userInterface;
 import java.util.Scanner;
-//import java.lang.*;
+
+import gameLogic.Guard;
+import gameLogic.Hero;
+import gameLogic.Map;
+import gameLogic.Map2;
+import gameLogic.Ogre;
 
 
 public class Main 
 {
-
-	public static boolean DoesGuardDefeatHero(Map TheMap, Hero TheHero, Guard TheGuard)  // Function that returns true or false, depending on whether the Guard defeats the hero after the Guard's move
-	{
-		if (TheMap.map[TheGuard.y-1][TheGuard.x] == 'H')  //detetar se o heroi está acima do guarda
-		{
-			TheMap.showMap();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap.map[TheGuard.y+1][TheGuard.x] == 'H')  //detetar se o heroi está abaixo do guarda
-		{
-			TheMap.showMap();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap.map[TheGuard.y][TheGuard.x-1] == 'H')  //detetar se o heroi está à esquerda do guarda
-		{
-			TheMap.showMap();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap.map[TheGuard.y][TheGuard.x+1] == 'H')  //detetar se o heroi está à direita do guarda
-		{
-			TheMap.showMap();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	public static boolean DoesOgreDefeatHero(Map2 TheMap2, Hero TheHero, Ogre TheOgre)	 // Function that returns true or false, depending on whether the Ogre defeats the hero after the Ogre's move
-	{
-		if (TheMap2.map2[TheOgre.y-1][TheOgre.x] == 'H' || TheMap2.map2[TheOgre.y-1][TheOgre.x] == 'K')  //detetar se o heroi está acima do ogre
-		{
-			TheMap2.showMap2();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap2.map2[TheOgre.y+1][TheOgre.x] == 'H' || TheMap2.map2[TheOgre.y+1][TheOgre.x] == 'K')  //detetar se o heroi está abaixo do ogre
-		{
-			TheMap2.showMap2();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap2.map2[TheOgre.y][TheOgre.x-1] == 'H' || TheMap2.map2[TheOgre.y][TheOgre.x-1] == 'K')  //detetar se o heroi está à esquerda do ogre
-		{
-			TheMap2.showMap2();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else if (TheMap2.map2[TheOgre.y][TheOgre.x+1] == 'H' || TheMap2.map2[TheOgre.y][TheOgre.x+1] == 'K')  //detetar se o heroi está à direita do ogre
-		{
-			TheMap2.showMap2();
-			System.out.println("You Lost!\n");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	
 	public static void main(String[] args) 
 	{
 		
 		//level 1
 		
 		System.out.println("Welcome to the Dungeon!\n\n");
+		UserInterface UI = new UserInterface();
 		Map map1 = new Map();
-		Hero hero1 = new Hero();
+		Hero hero1 = new Hero(1, 1);
 		Guard guard1 = new Guard();
 		boolean GameOver = false;
 		int Guard_Counter = 24;
@@ -85,30 +26,29 @@ public class Main
 		
 		while (GameOver == false)		//Game Cycle
 		{
-			map1.showMap();
-			System.out.println("\n\n What's your move (A for left, S for down, W for up, D for right, and N for not moving) : ");
-			Scanner reader1 = new Scanner(System.in);
-			char TheMove = reader1.next(".").charAt(0);
-		
+			UI.showMap(map1);
+			String TheMove = UI.Input();
+			GameLogic.GameLogic_Level1(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win);
+			
 			switch(TheMove)		//Hero's Move
 			{
-			case 'W': 
+			case "w": 
 			{
 				
 				if(map1.map[hero1.y-1][hero1.x] != 'X')
 				{
-					hero1.MoveW();
+					hero1.MoveW(map1, 'H');
 				}
 			}
 			break;
-			case 'A':
+			case "a":
 			{
 				if(map1.map[hero1.y][hero1.x-1] == 'k')
 				{
 					map1.map[5][0] = 'S';
 					map1.map[6][0] = 'S';
 					map1.map[8][7] = 'K';
-					hero1.MoveA();
+					hero1.MoveA(map1, 'H');
 				}
 				else if (map1.map[hero1.y][hero1.x-1] == 'S')
 				{
@@ -118,32 +58,31 @@ public class Main
 				}
 				else if (map1.map[hero1.y][hero1.x-1] != 'X')
 				{
-					hero1.MoveA();
+					hero1.MoveA(map1, 'H');
 				}
 			}
 			break;
-			case 'S':
+			case "s":
 			{
 				
 				if(map1.map[hero1.y+1][hero1.x] != 'X')
 				{
-					hero1.MoveS();
+					hero1.MoveS(map1, 'H');
 				}
 			}
 			break;
-			case 'D': 
+			case "d": 
 			{		
 				if(map1.map[hero1.y][hero1.x+1] != 'X')
 				{
-					hero1.MoveD();
+					hero1.MoveD(map1, 'H');
 				}
 			}
 			break;
-			default: 
+			default:
+				System.out.println("DEFAULT");
 				break;
 			}
-			
-			reader1.close();
 			
 			if (GameOver == false)	//Guard's Move
 			{	
@@ -152,7 +91,7 @@ public class Main
 					if(map1.map[guard1.y][guard1.x-1] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveA();
+						guard1.MoveA(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -166,7 +105,7 @@ public class Main
 					if(map1.map[guard1.y+1][guard1.x] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveS();
+						guard1.MoveS(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -180,7 +119,7 @@ public class Main
 					if(map1.map[guard1.y][guard1.x-1] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveA();
+						guard1.MoveA(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -194,7 +133,7 @@ public class Main
 					if(map1.map[guard1.y+1][guard1.x] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveS();
+						guard1.MoveS(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -208,7 +147,7 @@ public class Main
 					if(map1.map[guard1.y][guard1.x+1] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveD();
+						guard1.MoveD(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -222,7 +161,7 @@ public class Main
 					if(map1.map[guard1.y-1][guard1.x] != 'H')
 					{
 						Guard_Counter--;
-						guard1.MoveW();
+						guard1.MoveW(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -236,7 +175,7 @@ public class Main
 					if(map1.map[guard1.y-1][guard1.x] != 'H')
 					{
 						Guard_Counter= 24;
-						guard1.MoveW();
+						guard1.MoveW(map1, 'G');
 						GameOver = DoesGuardDefeatHero(map1, hero1, guard1);
 					}
 					else
@@ -261,7 +200,7 @@ public class Main
 		{
 			System.out.println("Welcome to Level 2!\n\n");
 			Map2 map2 = new Map2();
-			Hero hero2 = new Hero();
+			Hero hero2 = new Hero(7, 1);
 			Ogre ogre1 = new Ogre();
 			boolean OgreStepedOverKey = false;
 			boolean ClubHitsKey = false;
@@ -271,28 +210,26 @@ public class Main
 			
 			while (GameOver2 == false)			//Game Cycle
 			{
-				map2.showMap2();
-				System.out.println("\n\n What's your move (A for left, S for down, W for up, D for right, and N for not moving) : ");
-				Scanner reader2 = new Scanner(System.in);
-				char TheMove = reader2.next(".").charAt(0);
+				UI.showMap2(map2);
+				String TheMove = UI.Input();
 			
 				switch(TheMove)		//Hero's Move
 				{
-				case 'W': 
+				case "w": 
 				{
 					if(map2.map2[hero2.y-1][hero2.x] == 'k' || map2.map2[hero2.y-1][hero2.x] == '&')
 					{
 						map2.map2[hero2.y][hero2.x] = 'K';
 						map2.map2[hero2.y-1][hero2.x] = '0';
-						hero2.MoveW();
+						hero2.MoveW(map2, 'H');
 					}
 					else if (map2.map2[hero2.y-1][hero2.x] != 'X')
 					{
-						hero2.MoveW();
+						hero2.MoveW(map2, 'H');
 					}
 				}
 				break;
-				case 'A':
+				case "a":
 				{
 					if (map2.map2[hero2.y][hero2.x-1] == 'I')
 					{
@@ -309,38 +246,36 @@ public class Main
 					
 					else if(map2.map2[hero2.y][hero2.x-1] != 'X')
 					{
-						hero2.MoveA();
+						hero2.MoveA(map2, 'H');
 					}
 				}
 				break;
-				case 'S':
+				case "s":
 				{
 					
 					if(map2.map2[hero2.y+1][hero2.x] != 'X')
 					{
-						hero2.MoveS();
+						hero2.MoveS(map2, 'H');
 					}
 				}
 				break;
-				case 'D': 
+				case "d": 
 				{		
 					if(map2.map2[hero2.y][hero2.x+1] == 'k' || map2.map2[hero2.y][hero2.x+1] == '&')
 					{
 						map2.map2[hero2.y][hero2.x] = 'K';
 						map2.map2[hero2.y][hero2.x+1] = '0';
-						hero2.MoveD();
+						hero2.MoveD(map2, 'H');
 					}
 					else if (map2.map2[hero2.y][hero2.x+1] != 'X')
 					{
-						hero2.MoveW();
+						hero2.MoveW(map2, 'H');
 					}
 				}
 				break;
 				default: 
 					break;
 				}
-				
-				reader2.close();
 				
 				if(GameOver2 == false)		//Ogre's Move
 				{
@@ -357,13 +292,13 @@ public class Main
 						{
 							map2.map2[7][1] = '0';
 							map2.map2[ogre1.y][ogre1.x] = '$';
-							ogre1.MoveW();
+							ogre1.MoveW(map2, 'O');
 							OgreStepedOverKey = true;
 							GameOver2 = DoesOgreDefeatHero(map2, hero2, ogre1);
 						}
 						else if (map2.map2[ogre1.y-1][ogre1.x] != 'X')
 						{
-							ogre1.MoveW();
+							ogre1.MoveW(map2, 'O');
 							GameOver2 = DoesOgreDefeatHero(map2, hero2, ogre1);
 						}
 					}
@@ -376,7 +311,7 @@ public class Main
 						}
 						else if(map2.map2[ogre1.y][ogre1.x-1] != 'X' && map2.map2[ogre1.y][ogre1.x-1] != 'I' && map2.map2[ogre1.y][ogre1.x-1] != 'S')
 						{
-							ogre1.MoveA();
+							ogre1.MoveA(map2, 'O');
 							if(OgreStepedOverKey == true)
 							{
 								map2.map2[ogre1.y][ogre1.x] = 'O';
@@ -398,7 +333,7 @@ public class Main
 						}
 						else if(map2.map2[ogre1.y+1][ogre1.x] != 'X')
 						{
-							ogre1.MoveS();
+							ogre1.MoveS(map2, 'O');
 							if(OgreStepedOverKey == true)
 							{
 								map2.map2[ogre1.y][ogre1.x] = 'O';
@@ -422,13 +357,13 @@ public class Main
 						{
 							map2.map2[1][7] = '0';
 							map2.map2[ogre1.y][ogre1.x] = '$';
-							ogre1.MoveD();
+							ogre1.MoveD(map2, 'O');
 							OgreStepedOverKey = true;
 							GameOver2 = DoesOgreDefeatHero(map2, hero2, ogre1);
 						}
 						else if (map2.map2[ogre1.y-1][ogre1.x] != 'X')
 						{
-							ogre1.MoveW();
+							ogre1.MoveW(map2, 'O');
 							GameOver2 = DoesOgreDefeatHero(map2, hero2, ogre1);
 						}
 					}
@@ -458,7 +393,7 @@ public class Main
 							if(map2.map2[ogre1.y-2][ogre1.x] == 'H' || map2.map2[ogre1.y-2][ogre1.x] == 'K' || map2.map2[ogre1.y-1][ogre1.x+1] == 'H' || map2.map2[ogre1.y-1][ogre1.x+1] == 'K' || map2.map2[ogre1.y-1][ogre1.x-1] == 'H' || map2.map2[ogre1.y-1][ogre1.x-1] == 'K')
 							{
 								map2.map2[ogre1.y-1][ogre1.x] = '*';
-								map2.showMap2();
+								UserInterface.showMap2(map2);
 								GameOver2 = true;
 								System.out.println("You Lost!");
 							}
@@ -479,7 +414,7 @@ public class Main
 							if(map2.map2[ogre1.y][ogre1.x-2] == 'H' || map2.map2[ogre1.y][ogre1.x-2] == 'K' || map2.map2[ogre1.y-1][ogre1.x-1] == 'H' || map2.map2[ogre1.y-1][ogre1.x-1] == 'K' || map2.map2[ogre1.y+1][ogre1.x-1] == 'H' || map2.map2[ogre1.y+1][ogre1.x-1] == 'K')
 							{
 								map2.map2[ogre1.y][ogre1.x-1] = '*';
-								map2.showMap2();
+								UserInterface.showMap2(map2);
 								GameOver2 = true;
 								System.out.println("\n\nYou Lost!");
 							}
@@ -495,7 +430,7 @@ public class Main
 							if(map2.map2[ogre1.y+2][ogre1.x] == 'H' || map2.map2[ogre1.y+2][ogre1.x] == 'K' || map2.map2[ogre1.y+1][ogre1.x-1] == 'H' || map2.map2[ogre1.y+1][ogre1.x-1] == 'K' || map2.map2[ogre1.y+1][ogre1.x+1] == 'H' || map2.map2[ogre1.y+1][ogre1.x+1] == 'K')
 							{
 								map2.map2[ogre1.y+1][ogre1.x] = '*';
-								map2.showMap2();
+								UserInterface.showMap2(map2);
 								GameOver2 = true;
 								System.out.println("You Lost!");
 							}
@@ -511,7 +446,7 @@ public class Main
 							if(map2.map2[ogre1.y][ogre1.x+2] == 'H' || map2.map2[ogre1.y][ogre1.x+2] == 'K' || map2.map2[ogre1.y-1][ogre1.x+1] == 'H' || map2.map2[ogre1.y-1][ogre1.x+1] == 'K' || map2.map2[ogre1.y+1][ogre1.x+1] == 'H' || map2.map2[ogre1.y+1][ogre1.x+1] == 'K')
 							{
 								map2.map2[ogre1.y][ogre1.x+1] = '*';
-								map2.showMap2();
+								UserInterface.showMap2(map2);
 								GameOver2 = true;
 								System.out.println("You Lost!");
 							}
