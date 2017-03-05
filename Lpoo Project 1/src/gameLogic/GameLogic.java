@@ -25,7 +25,7 @@ public class GameLogic
 			System.out.println("You Lost!\n");
 			return true;
 		}
-		else if (TheMap.map[TheGuard.y][TheGuard.x+1] == 'H')  //detetar se o heroi está à direita do guarda
+		else if (TheMap.map[TheGuard.y][TheGuard.x+1] == 'H')  //detetar se o heroi está à direita do guardaa
 		{
 			TheUI.showMap(TheMap);
 			System.out.println("You Lost!\n");

@@ -26,7 +26,7 @@ public class Main
 			TheGameLogic.Level1(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
 			
 /*			
-			switch(TheMove)		//Hero's Move
+			switch(TheMove)		//Hero's Move 
 			{
 			case "w": 
 			{
