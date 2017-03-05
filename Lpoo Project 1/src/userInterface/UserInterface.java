@@ -48,7 +48,7 @@ public class UserInterface
 		}
 	}
 	
-	public String Input()
+	public String MoveInput()
 	{
 		System.out.println("\n\n What's your move (A for left, S for down, W for up, D for right, and N for not moving) : ");
 		Scanner reader1 = new Scanner(System.in);

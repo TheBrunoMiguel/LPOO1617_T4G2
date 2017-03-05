@@ -1,11 +1,5 @@
 package userInterface;
-import java.util.Scanner;
-
-import gameLogic.Guard;
-import gameLogic.Hero;
-import gameLogic.Map;
-import gameLogic.Map2;
-import gameLogic.Ogre;
+import gameLogic.*;
 
 
 public class Main 
@@ -17,6 +11,7 @@ public class Main
 		
 		System.out.println("Welcome to the Dungeon!\n\n");
 		UserInterface UI = new UserInterface();
+		gameLogic.GameLogic TheGameLogic = new GameLogic();
 		Map map1 = new Map();
 		Hero hero1 = new Hero(1, 1);
 		Guard guard1 = new Guard();
@@ -27,9 +22,10 @@ public class Main
 		while (GameOver == false)		//Game Cycle
 		{
 			UI.showMap(map1);
-			String TheMove = UI.Input();
-			GameLogic.GameLogic_Level1(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win);
+			String TheMove = UI.MoveInput();
+			TheGameLogic.Level1(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
 			
+/*			
 			switch(TheMove)		//Hero's Move
 			{
 			case "w": 
@@ -187,7 +183,8 @@ public class Main
 			}
 		}
 		
-		
+*/		
+			
 		if(GameOver == true && first_level_win == false)
 		{
 			System.out.println("Game Over!");
@@ -208,11 +205,13 @@ public class Main
 			int PreviousClubColumn = 20;
 			int PreviousClubRow = 20;
 			
+			
 			while (GameOver2 == false)			//Game Cycle
 			{
 				UI.showMap2(map2);
-				String TheMove = UI.Input();
-			
+				String TheMove2 = UI.MoveInput();
+				TheGameLogic.Level2(map2, hero2, ogre1, GameOver2, OgreStepedOverKey, ClubHitsKey, PreviousClubColumn, PreviousClubRow, TheMove2);
+/*			
 				switch(TheMove)		//Hero's Move
 				{
 				case "w": 
@@ -466,11 +465,13 @@ public class Main
 				}
 				
 			}
-			
+*/			
 			if(GameOver2 == true)
 			{
 				System.out.println("Game Over!");
 			}
 			}
 		}
+		}
 	}
+}
