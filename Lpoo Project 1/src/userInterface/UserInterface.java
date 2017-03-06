@@ -53,7 +53,7 @@ public class UserInterface
 		System.out.println("\n\n  What's your move (a for left, s for down, w for up and d for right) : ");
 		Scanner reader1 = new Scanner(System.in);
 		String TheString;
-		//if(reader1.hasNext())
+		//if(reader1.hasNext()) 
 		//{
 			TheString = reader1.next();
 		//}
