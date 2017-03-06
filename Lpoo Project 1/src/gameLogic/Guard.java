@@ -1,13 +1,21 @@
 package gameLogic;
-public class Guard extends Character
-{
-	public int numberOfPersonalities;  // 1 -> Rookie,  2 -> Drunken,  3 -> Suspicious
-	
-	public Guard(int theNumberOfPersonalities)
-	{
-		x = 1;
-		y = 8;
-		numberOfPersonalities = theNumberOfPersonalities;
-	}
-}
+import java.util.ArrayList;
 
+
+public class Guard extends DynamicObject 
+{
+
+	private ArrayList<String> GuardMovement = new ArrayList<String>();
+	
+	private static char GUARDCHAR='G';
+
+	
+	public Guard(int x, int y) 
+	{
+		super(x, y, GUARDCHAR);
+
+		
+		
+	}
+
+}

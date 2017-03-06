@@ -1,9 +1,29 @@
+
+/*
+
 package gameLogic;
-import userInterface.UserInterface;
 
+public class AditionalStuff {
 
-public class GameLogic 
-{
+	public static void main(String[] args) 
+	{
+		public int numberOfPersonalities;  // 1 -> Rookie,  2 -> Drunken,  3 -> Suspicious
+		
+		
+		public char map[][] = {  {'X', 'X', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X'}, {'X', 'H', 'X', '0', 'X', '0', '0', 'X', '0', 'X'},
+				 {'X', '0', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+				 {'X', 'I', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', 'X', '0', 'X', '0', '0', 'X', '0', 'X'}, 
+				 {'X', 'X', 'X', 'X', 'X', '0', '0', 'X', 'X', 'X'}, {'X', '0', '0', '0', '0', '0', '0', 'X', 'k', 'X'}, 
+				 {'X', 'G', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+		
+		public char map2[][] = { {'X', 'I', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', 'H', 'X'},
+				  {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+				  {'X', 'O', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+				  {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
+				  {'X', 'k', '0', '0', '0', '0', '0', '0', '0', 'X'}, {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+		
+	}
+	
 	public boolean DoesGuardDefeatHero(Map TheMap, Hero TheHero, Guard TheGuard)  // Function that returns true or false, depending on whether the Guard defeats the hero after the Guard's move
 	{
 		userInterface.UserInterface TheUI = new UserInterface();
@@ -70,222 +90,8 @@ public class GameLogic
 		}
 	}
 	
-	public void Level1_Rookie(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
-	{
-		switch(TheMove)		//Hero's Move
-		{
-		case "w": 
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
-			{
-				TheHero.MoveW(TheMap, 'H');
-			}
-		}
-		break;
-		case "a":
-		{
-			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
-			{
-				TheMap.map[0][5] = 'S';
-				TheMap.map[0][6] = 'S';
-				TheMap.map[7][8] = 'K';
-				TheHero.MoveA(TheMap, 'H');
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
-			{
-				gameover = true;
-				first_level_win = true;
-				System.out.println("You Won!\n");
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
-			{
-				TheHero.MoveA(TheMap, 'H');
-			}
-		}
-		break;
-		case "s":
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
-			{
-				TheHero.MoveS(TheMap, 'H');
-			}
-		}
-		break;
-		case "d": 
-		{		
-			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
-			{
-				TheHero.MoveD(TheMap, 'H');
-			}
-		}
-		break;
-		default:
-			System.out.println("DEFAULT");
-			break;
-		}
-		
-		if (gameover == false)	//Guard's Move
-		{	
-			if(guard_counter> 23)
-			{
-				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveA(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 19)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveS(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 13)
-			{
-				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveA(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}	
-			}
-			else if(guard_counter > 12)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveS(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}	
-			else if(guard_counter > 5)
-			{
-				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveD(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 1)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveW(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter == 1)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
-				{
-					guard_counter= 24;
-					TheGuard.MoveW(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-		}
-	}
 	
-	public void Level1_Drunken(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
-	{
-		switch(TheMove)		//Hero's Move
-		{
-		case "w": 
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
-			{
-				TheHero.MoveW(TheMap, 'H');
-			}
-		}
-		break;
-		case "a":
-		{
-			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
-			{
-				TheMap.map[0][5] = 'S';
-				TheMap.map[0][6] = 'S';
-				TheMap.map[7][8] = 'K';
-				TheHero.MoveA(TheMap, 'H');
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
-			{
-				gameover = true;
-				first_level_win = true;
-				System.out.println("You Won!\n");
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
-			{
-				TheHero.MoveA(TheMap, 'H');
-			}
-		}
-		break;
-		case "s":
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
-			{
-				TheHero.MoveS(TheMap, 'H');
-			}
-		}
-		break;
-		case "d": 
-		{		
-			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
-			{
-				TheHero.MoveD(TheMap, 'H');
-			}
-		}
-		break;
-		default:
-			System.out.println("DEFAULT");
-			break;
-		}
-		
-		if (gameover == false)	//Guard's Move
+	if (gameover == false)	//Guard's Move
 		{	
 			if(guard_counter> 23)
 			{
@@ -386,168 +192,9 @@ public class GameLogic
 				}
 			}
 		}
-	}
-	
-	public void Level1_Suspicious(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
-	{
-		switch(TheMove)		//Hero's Move
-		{
-		case "w": 
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
-			{
-				TheHero.MoveW(TheMap, 'H');
-			}
-		}
-		break;
-		case "a":
-		{
-			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
-			{
-				TheMap.map[0][5] = 'S';
-				TheMap.map[0][6] = 'S';
-				TheMap.map[7][8] = 'K';
-				TheHero.MoveA(TheMap, 'H');
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
-			{
-				gameover = true;
-				first_level_win = true;
-				System.out.println("You Won!\n");
-			}
-			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
-			{
-				TheHero.MoveA(TheMap, 'H');
-			}
-		}
-		break;
-		case "s":
-		{
-			
-			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
-			{
-				TheHero.MoveS(TheMap, 'H');
-			}
-		}
-		break;
-		case "d": 
-		{		
-			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
-			{
-				TheHero.MoveD(TheMap, 'H');
-			}
-		}
-		break;
-		default:
-			System.out.println("DEFAULT");
-			break;
-		}
 		
-		if (gameover == false)	//Guard's Move
-		{	
-			if(guard_counter> 23)
-			{
-				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveA(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 19)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveS(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 13)
-			{
-				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveA(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}	
-			}
-			else if(guard_counter > 12)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveS(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}	
-			else if(guard_counter > 5)
-			{
-				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveD(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter > 1)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
-				{
-					guard_counter--;
-					TheGuard.MoveW(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-			else if (guard_counter == 1)
-			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
-				{
-					guard_counter= 24;
-					TheGuard.MoveW(TheMap, 'G');
-					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
-				}
-				else
-				{
-					gameover = true;
-					System.out.println("You Lost!");
-				}
-			}
-		}
-	}
-
-	public void Level2(Map2 TheMap2, Hero TheHero, Ogre TheOgre, boolean gameover2, boolean ogrestepedoverkey, boolean clubhitskey, int previousclubcolumn, int previousclubrow, String TheMove2)
+		
+		public void Level2(Map2 TheMap2, Hero TheHero, Ogre TheOgre, boolean gameover2, boolean ogrestepedoverkey, boolean clubhitskey, int previousclubcolumn, int previousclubrow, String TheMove2)
 	{
 		userInterface.UserInterface TheUI = new UserInterface();
 		switch(TheMove2)		//Hero's Move
@@ -803,4 +450,8 @@ public class GameLogic
 		}
 		
 	}
+
 }
+
+
+*/
