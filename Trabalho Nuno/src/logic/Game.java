@@ -1,6 +1,8 @@
 package logic;
 
+import cli.ReadInput;
 import java.util.ArrayList;
+
 
 public class Game { // vars dde qqr objeto game
 
@@ -28,7 +30,7 @@ public class Game { // vars dde qqr objeto game
 		return c;
 	}
 
-	public void update() { // se tivesse tempo usava-se args
+	public void update() { //se tivesse tempo usava-se args
 		updatehero();
 		updatemap(); // falta fazer
 		checkGameStatus();
@@ -37,8 +39,8 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	private void updatemap() {
-		//maps.get(currentmap).;
-
+		String s = ; 
+		//GameObject guardobject = maps.get(currentmap).readCoord(guard), guard.y)
 	}
 
 	public void checkGameStatus() {
@@ -62,11 +64,7 @@ public class Game { // vars dde qqr objeto game
 		}
 	}
 
-	/*
-	 * public void checkDoor() { GameObject heropos =
-	 * maps.get(currentmap).readCoord(hero.getx(), hero.gety()); if (heropos
-	 * instanceof Door) gamewon=true; }
-	 */
+
 	public void checkLever() {
 		GameObject heropos = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
 		if (heropos instanceof Lever)

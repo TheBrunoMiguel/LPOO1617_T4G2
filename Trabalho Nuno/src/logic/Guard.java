@@ -10,7 +10,13 @@ public class Guard extends DynamicObject {
 
 	private int currentMovement = 0;
 
-	public in		
+	public String getCurrentMovement()
+	{
+		currentMovement++;
+		return guardMovement.get(currentMovement);
+		
+		
+	}
 
 	public Guard(int x, int y, String movement[]) {
 		super(x, y, GUARDCHAR);
@@ -20,7 +26,7 @@ public class Guard extends DynamicObject {
 	}
 
 	private void readmovement(String[] movement) {
-		// movementLength = movement.length;
+		//movementLength = movement.length;
 
 		for (int i = 0; i < movement.length; i++) {
 

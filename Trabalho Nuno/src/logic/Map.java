@@ -106,7 +106,7 @@ public class Map {
 	}
 
 	public void readMap(char map[][],String movement[]) {
-	//	maplength = map[0].length;
+		maplength = map[0].length;
 		mapwidth = map.length;
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {

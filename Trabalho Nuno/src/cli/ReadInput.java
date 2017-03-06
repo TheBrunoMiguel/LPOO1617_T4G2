@@ -1,4 +1,5 @@
-package logic;
+package cli;
+
 
 import java.util.Scanner;
 
