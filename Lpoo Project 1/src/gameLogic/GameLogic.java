@@ -70,14 +70,14 @@ public class GameLogic
 		}
 	}
 	
-	public void Level1(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
+	public void Level1_Rookie(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
 	{
 		switch(TheMove)		//Hero's Move
 		{
 		case "w": 
 		{
 			
-			if(TheMap.map[TheHero.y-1][TheHero.x] != 'X')
+			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
 			{
 				TheHero.MoveW(TheMap, 'H');
 			}
@@ -85,20 +85,20 @@ public class GameLogic
 		break;
 		case "a":
 		{
-			if(TheMap.map[TheHero.y][TheHero.x-1] == 'k')
+			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
 			{
-				TheMap.map[5][0] = 'S';
-				TheMap.map[6][0] = 'S';
-				TheMap.map[8][7] = 'K';
+				TheMap.map[0][5] = 'S';
+				TheMap.map[0][6] = 'S';
+				TheMap.map[7][8] = 'K';
 				TheHero.MoveA(TheMap, 'H');
 			}
-			else if (TheMap.map[TheHero.y][TheHero.x-1] == 'S')
+			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
 			{
 				gameover = true;
 				first_level_win = true;
 				System.out.println("You Won!\n");
 			}
-			else if (TheMap.map[TheHero.y][TheHero.x-1] != 'X')
+			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
 			{
 				TheHero.MoveA(TheMap, 'H');
 			}
@@ -107,7 +107,7 @@ public class GameLogic
 		case "s":
 		{
 			
-			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
+			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
 			{
 				TheHero.MoveS(TheMap, 'H');
 			}
@@ -115,7 +115,7 @@ public class GameLogic
 		break;
 		case "d": 
 		{		
-			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
+			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
 			{
 				TheHero.MoveD(TheMap, 'H');
 			}
@@ -130,7 +130,7 @@ public class GameLogic
 		{	
 			if(guard_counter> 23)
 			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveA(TheMap, 'G');
@@ -144,7 +144,7 @@ public class GameLogic
 			}
 			else if (guard_counter > 19)
 			{
-				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveS(TheMap, 'G');
@@ -158,7 +158,7 @@ public class GameLogic
 			}
 			else if (guard_counter > 13)
 			{
-				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveA(TheMap, 'G');
@@ -172,7 +172,7 @@ public class GameLogic
 			}
 			else if(guard_counter > 12)
 			{
-				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveS(TheMap, 'G');
@@ -186,7 +186,7 @@ public class GameLogic
 			}	
 			else if(guard_counter > 5)
 			{
-				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
+				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveD(TheMap, 'G');
@@ -200,7 +200,7 @@ public class GameLogic
 			}
 			else if (guard_counter > 1)
 			{
-				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
 				{
 					guard_counter--;
 					TheGuard.MoveW(TheMap, 'G');
@@ -214,7 +214,325 @@ public class GameLogic
 			}
 			else if (guard_counter == 1)
 			{
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				{
+					guard_counter= 24;
+					TheGuard.MoveW(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+		}
+	}
+	
+	public void Level1_Drunken(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
+	{
+		switch(TheMove)		//Hero's Move
+		{
+		case "w": 
+		{
+			
+			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
+			{
+				TheHero.MoveW(TheMap, 'H');
+			}
+		}
+		break;
+		case "a":
+		{
+			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
+			{
+				TheMap.map[0][5] = 'S';
+				TheMap.map[0][6] = 'S';
+				TheMap.map[7][8] = 'K';
+				TheHero.MoveA(TheMap, 'H');
+			}
+			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
+			{
+				gameover = true;
+				first_level_win = true;
+				System.out.println("You Won!\n");
+			}
+			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
+			{
+				TheHero.MoveA(TheMap, 'H');
+			}
+		}
+		break;
+		case "s":
+		{
+			
+			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
+			{
+				TheHero.MoveS(TheMap, 'H');
+			}
+		}
+		break;
+		case "d": 
+		{		
+			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
+			{
+				TheHero.MoveD(TheMap, 'H');
+			}
+		}
+		break;
+		default:
+			System.out.println("DEFAULT");
+			break;
+		}
+		
+		if (gameover == false)	//Guard's Move
+		{	
+			if(guard_counter> 23)
+			{
 				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveA(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 19)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveS(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 13)
+			{
+				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveA(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}	
+			}
+			else if(guard_counter > 12)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveS(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}	
+			else if(guard_counter > 5)
+			{
+				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveD(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 1)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveW(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter == 1)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				{
+					guard_counter= 24;
+					TheGuard.MoveW(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+		}
+	}
+	
+	public void Level1_Suspicious(Map TheMap, Hero TheHero, Guard TheGuard, boolean gameover, int guard_counter, boolean first_level_win, String TheMove)
+	{
+		switch(TheMove)		//Hero's Move
+		{
+		case "w": 
+		{
+			
+			if(TheMap.map[TheHero.y][TheHero.x-1] != 'X')
+			{
+				TheHero.MoveW(TheMap, 'H');
+			}
+		}
+		break;
+		case "a":
+		{
+			if(TheMap.map[TheHero.y-1][TheHero.x] == 'k')
+			{
+				TheMap.map[0][5] = 'S';
+				TheMap.map[0][6] = 'S';
+				TheMap.map[7][8] = 'K';
+				TheHero.MoveA(TheMap, 'H');
+			}
+			else if (TheMap.map[TheHero.y-1][TheHero.x] == 'S')
+			{
+				gameover = true;
+				first_level_win = true;
+				System.out.println("You Won!\n");
+			}
+			else if (TheMap.map[TheHero.y-1][TheHero.x] != 'X')
+			{
+				TheHero.MoveA(TheMap, 'H');
+			}
+		}
+		break;
+		case "s":
+		{
+			
+			if(TheMap.map[TheHero.y][TheHero.x+1] != 'X')
+			{
+				TheHero.MoveS(TheMap, 'H');
+			}
+		}
+		break;
+		case "d": 
+		{		
+			if(TheMap.map[TheHero.y+1][TheHero.x] != 'X')
+			{
+				TheHero.MoveD(TheMap, 'H');
+			}
+		}
+		break;
+		default:
+			System.out.println("DEFAULT");
+			break;
+		}
+		
+		if (gameover == false)	//Guard's Move
+		{	
+			if(guard_counter> 23)
+			{
+				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveA(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 19)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveS(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 13)
+			{
+				if(TheMap.map[TheGuard.y-1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveA(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}	
+			}
+			else if(guard_counter > 12)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x+1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveS(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}	
+			else if(guard_counter > 5)
+			{
+				if(TheMap.map[TheGuard.y+1][TheGuard.x] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveD(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter > 1)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
+				{
+					guard_counter--;
+					TheGuard.MoveW(TheMap, 'G');
+					gameover = DoesGuardDefeatHero(TheMap, TheHero, TheGuard);
+				}
+				else
+				{
+					gameover = true;
+					System.out.println("You Lost!");
+				}
+			}
+			else if (guard_counter == 1)
+			{
+				if(TheMap.map[TheGuard.y][TheGuard.x-1] != 'H')
 				{
 					guard_counter= 24;
 					TheGuard.MoveW(TheMap, 'G');

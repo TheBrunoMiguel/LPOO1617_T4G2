@@ -14,17 +14,41 @@ public class Main
 		gameLogic.GameLogic TheGameLogic = new GameLogic();
 		Map map1 = new Map();
 		Hero hero1 = new Hero(1, 1);
-		Guard guard1 = new Guard();
+		//int guardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
+		int guardPersonality = 1;
+		Guard guard1 = new Guard(guardPersonality);
 		boolean GameOver = false;
 		int Guard_Counter = 24;
 		boolean first_level_win = false;
 		
-		while (GameOver == false)		//Game Cycle
+		if(guardPersonality == 1)
 		{
-			UI.showMap(map1);
-			String TheMove = UI.MoveInput();
-			TheGameLogic.Level1(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
-			
+			while (GameOver == false)		//Game Cycle
+			{
+				UI.showMap(map1);
+				String TheMove = UI.MoveInput();
+				TheGameLogic.Level1_Rookie(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
+			}
+		}
+		else if(guardPersonality == 2)
+		{
+			while(GameOver == false)
+			{
+				UI.showMap(map1);
+				String TheMove = UI.MoveInput();
+				TheGameLogic.Level1_Drunken(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
+			}
+		}
+		
+		else if (guardPersonality == 3)
+		{
+			while(GameOver == false)
+			{
+				UI.showMap(map1);
+				String TheMove = UI.MoveInput();
+				TheGameLogic.Level1_Suspicious(map1, hero1, guard1, GameOver, Guard_Counter, first_level_win, TheMove);
+			}
+		}
 /*			
 			switch(TheMove)		//Hero's Move 
 			{
@@ -197,7 +221,7 @@ public class Main
 		{
 			System.out.println("Welcome to Level 2!\n\n");
 			Map2 map2 = new Map2();
-			Hero hero2 = new Hero(7, 1);
+			Hero hero2 = new Hero(1, 7);
 			Ogre ogre1 = new Ogre();
 			boolean OgreStepedOverKey = false;
 			boolean ClubHitsKey = false;
@@ -211,6 +235,7 @@ public class Main
 				UI.showMap2(map2);
 				String TheMove2 = UI.MoveInput();
 				TheGameLogic.Level2(map2, hero2, ogre1, GameOver2, OgreStepedOverKey, ClubHitsKey, PreviousClubColumn, PreviousClubRow, TheMove2);
+			}
 /*			
 				switch(TheMove)		//Hero's Move
 				{
@@ -470,8 +495,6 @@ public class Main
 			{
 				System.out.println("Game Over!");
 			}
-			}
-		}
 		}
 	}
 }

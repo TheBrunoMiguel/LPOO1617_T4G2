@@ -4,6 +4,8 @@ public class Map
 {
 	//public char map[][] = new char[10][10];   //map[columns][lines]
 	
+	//x -> Lines,  y -> Columns
+	
 	public char map[][] = {  {'X', 'X', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X'}, {'X', 'H', 'X', '0', 'X', '0', '0', 'X', '0', 'X'},
 							 {'X', '0', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X'}, 
 							 {'X', 'I', 'X', 'I', 'X', '0', '0', 'X', 'I', 'X'}, {'X', '0', 'X', '0', 'X', '0', '0', 'X', '0', 'X'}, 
