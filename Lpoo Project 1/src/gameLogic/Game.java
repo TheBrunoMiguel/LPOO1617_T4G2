@@ -15,33 +15,32 @@ public class Game { // vars dde qqr objeto game
 
 	public Game() // construtor
 	{
-		maps.add(new Map(map1));
+		//maps.add(new Map(map1));
+		maps.add(new Map(map1, lvl1guardmovement));
+
+		
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
 
 	}
 
-	public char getinput() 
-	{
-		//userInterface.ReadInput TheInput = new ReadInput();
+	public char getinput() {
 		char c = ReadInput.read();
 		return c;
 	}
 
 	public void update() { // se tivesse tempo usava-se args
 		updatehero();
-		//updatemap(); // falta fazer
+		updatemap(); // falta fazer
 		checkGameStatus();
 		maps.get(currentmap).printMap(hero);
 
 	}
 
-	/*private void updatemap() {
-		// wat do
+	private void updatemap() {
+		//maps.get(currentmap).;
 
-		// maps.get(currentmap)
-
-	}*/
+	}
 
 	public void checkGameStatus() {
 		checkSurround(hero.getx(), hero.gety());

@@ -20,8 +20,8 @@ public class Map {
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
-	public Map(char map[][]) {
-		readMap(map);
+	public Map(char map[][],String movement[]) {
+		readMap(map,movement);
 	}
 
 	public int getstarty() {
@@ -65,7 +65,7 @@ public class Map {
 		}
 	}
 
-	public void createNewObject(char c, int x, int y) {
+	public void createNewObject(char c, int x, int y, String movement[]) {
 
 		switch (c) {
 		case 'X':
@@ -75,7 +75,7 @@ public class Map {
 			staticObject.add(new Door(x, y));
 			break;
 		case 'G':
-			dynamicObject.add(new Guard(x, y));
+			dynamicObject.add(new Guard(x, y, movement));
 			break;
 		case 'k':
 			staticObject.add(new Lever(x, y));
@@ -105,12 +105,12 @@ public class Map {
 		return null;
 	}
 
-	public void readMap(char map[][]) {
+	public void readMap(char map[][],String movement[]) {
 		maplength = map[0].length;
 		mapwidth = map.length;
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {
-				createNewObject(map[y][x], x, y);
+				createNewObject(map[y][x], x, y,movement);
 
 			}
 		}

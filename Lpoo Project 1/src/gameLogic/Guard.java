@@ -2,20 +2,30 @@ package gameLogic;
 import java.util.ArrayList;
 
 
-public class Guard extends DynamicObject 
-{
+public class Guard extends DynamicObject {
 
-	private ArrayList<String> GuardMovement = new ArrayList<String>();
-	
-	private static char GUARDCHAR='G';
+	private ArrayList<String> guardMovement = new ArrayList<String>();
 
-	
-	public Guard(int x, int y) 
-	{
+	private static char GUARDCHAR = 'G';
+
+	private int currentMovement = 0;
+		
+
+	public Guard(int x, int y, String movement[]) {
 		super(x, y, GUARDCHAR);
+		readmovement(movement);
 
-		
-		
+
+	}
+
+	private void readmovement(String[] movement) {
+		//movementLength = movement.length;
+
+		for (int i = 0; i < movement.length; i++) {
+
+			guardMovement.add(movement[i]);
+
+		}
 	}
 
 }
