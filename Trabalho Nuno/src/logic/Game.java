@@ -39,8 +39,8 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	private void updatemap() {
-		String s = ; 
-		//GameObject guardobject = maps.get(currentmap).readCoord(guard), guard.y)
+		
+		maps.get(currentmap).update();
 	}
 
 	public void checkGameStatus() {
@@ -174,7 +174,7 @@ public class Game { // vars dde qqr objeto game
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
 		else if (hero.hasWon() == true){
-			System.out.println("You won!");
+			System.out.println("CONSEGUISTE CHEGAR AO FIM DIOGO PARABENS LOL :D!");
 			System.out.println("Game Over!");
 	}
 

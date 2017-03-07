@@ -131,4 +131,14 @@ public class Map {
 		}
 
 	}
+	
+	public void update()
+	{
+		for(int i=0 ; i<dynamicObject.size() ; i++)
+		{
+			if(dynamicObject.get(i) instanceof Guard){
+				dynamicObject.get(i).update();
+			}
+		}
+	}
 }

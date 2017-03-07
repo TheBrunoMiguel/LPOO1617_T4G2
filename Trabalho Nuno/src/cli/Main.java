@@ -13,5 +13,10 @@ public class Main {
 		game.play();		//chamar game para iniciar
 
 	}
+	
+	
+
 
 }
+
+
