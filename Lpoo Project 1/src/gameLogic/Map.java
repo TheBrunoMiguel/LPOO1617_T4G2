@@ -1,7 +1,7 @@
 package gameLogic;
+
 //import java.lang.reflect.MalformedParametersException;
 import java.util.*;
-
 
 public class Map {
 
@@ -20,6 +20,13 @@ public class Map {
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
+	/*
+	public Map (char map[][])
+	{
+		readMap(map);
+	}
+	*/
+	
 	public Map(char map[][],String movement[]) {
 		readMap(map,movement);
 	}
@@ -89,6 +96,34 @@ public class Map {
 
 	}
 
+	
+	/*
+	public void createNewObject(char c, int x, int y) {
+
+		switch (c) {
+		case 'X':
+			staticObject.add(new Wall(x, y));
+			break;
+		case 'I':
+			staticObject.add(new Door(x, y));
+			break;
+		case 'O':
+			dynamicObject.add(new Ogre(x, y));
+			break;
+		case 'k':
+			staticObject.add(new Lever(x, y));
+			break;
+		case 'H':
+			hx = x;
+			hy = y;
+			break;
+
+		}
+
+	}
+	
+	*/
+
 	public GameObject readCoord(int x, int y) {
 		for (int i = 0; i < staticObject.size(); i++) {
 			int nx = staticObject.get(i).getx(), ny = staticObject.get(i).gety();
@@ -115,6 +150,23 @@ public class Map {
 			}
 		}
 	}
+	
+	/*
+	public void readMap(char map[][]) {
+		maplength = map[0].length;
+		mapwidth = map.length;
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
+				createNewObject(map[y][x], x, y);
+
+			}
+		}
+	}
+	
+*/
+	
+
+	
 
 	public void openDoors()
 	{
@@ -130,5 +182,15 @@ public class Map {
 			}
 		}
 
+	}
+	
+	public void update()
+	{
+		for(int i=0 ; i<dynamicObject.size() ; i++)
+		{
+			if(dynamicObject.get(i) instanceof Guard){
+				dynamicObject.get(i).update();
+			}
+		}
 	}
 }

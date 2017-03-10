@@ -34,4 +34,9 @@ public class DynamicObject extends GameObject
 		return alive;
 	}
 	
+	public void update()
+	{
+		
+		
+	}
 }

@@ -1,4 +1,5 @@
 package gameLogic;
+
 import userInterface.ReadInput;
 import java.util.ArrayList;
 
@@ -13,23 +14,34 @@ public class Game { // vars dde qqr objeto game
 
 	private int currentmap = 0;
 
-	public Game() // construtor
+	public Game(int Level) // construtor
 	{
-		//maps.add(new Map(map1));
-		maps.add(new Map(map1, lvl1guardmovement));
-
+		if (Level == 1)
+		{
+			maps.add(new Map(map1, lvl1guardmovement));
+			
+			
+			running = true;
+			hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		}
 		
-		running = true;
-		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
-
+		else if (Level == 2)
+		{
+			//maps.add(new Map(map2));
+			currentmap++;
+			running = true;
+			hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		}
+		
 	}
+	
 
 	public char getinput() {
 		char c = ReadInput.read();
 		return c;
 	}
 
-	public void update() { // se tivesse tempo usava-se args
+	public void update() { //se tivesse tempo usava-se args
 		updatehero();
 		updatemap(); // falta fazer
 		checkGameStatus();
@@ -38,8 +50,8 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	private void updatemap() {
-		//maps.get(currentmap).;
-
+		
+		maps.get(currentmap).update();
 	}
 
 	public void checkGameStatus() {
@@ -63,11 +75,7 @@ public class Game { // vars dde qqr objeto game
 		}
 	}
 
-	/*
-	 * public void checkDoor() { GameObject heropos =
-	 * maps.get(currentmap).readCoord(hero.getx(), hero.gety()); if (heropos
-	 * instanceof Door) gamewon=true; }
-	 */
+
 	public void checkLever() {
 		GameObject heropos = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
 		if (heropos instanceof Lever)
@@ -176,9 +184,13 @@ public class Game { // vars dde qqr objeto game
 		if (hero.isAlive() == false){
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
-		else if (hero.hasWon() == true){
-			System.out.println("You won!");
-			System.out.println("Game Over!");
+		else if (hero.hasWon() == true)
+		{
+			System.out.println("Level 1 Complete!!");
+			//System.out.println("Game Over!");
+			Game game2 = new Game(2);
+			game2.play();
+			
 	}
 
 	}
