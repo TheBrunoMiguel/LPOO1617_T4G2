@@ -1,6 +1,6 @@
 package logic;
 
-import cli.ReadInput;
+import cli.ReadInput; 
 import java.util.ArrayList;
 
 
@@ -174,7 +174,7 @@ public class Game { // vars dde qqr objeto game
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
 		else if (hero.hasWon() == true){
-			System.out.println("CONSEGUISTE CHEGAR AO FIM DIOGO PARABENS LOL :D!");
+			System.out.println("You won!");
 			System.out.println("Game Over!");
 	}
 
