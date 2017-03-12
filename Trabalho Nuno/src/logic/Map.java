@@ -75,7 +75,10 @@ public class Map {
 			staticObject.add(new Door(x, y));
 			break;
 		case 'G':
-			dynamicObject.add(new Guard(x, y, movement));
+			dynamicObject.add(new Guard(x, y, movement,'G'));
+			break;
+		case 'O':
+			dynamicObject.add(new Guard(x, y, movement,'O'));
 			break;
 		case 'k':
 			staticObject.add(new Lever(x, y));
