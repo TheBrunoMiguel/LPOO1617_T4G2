@@ -1,9 +1,9 @@
-/*
 package gameLogic;
 
 import java.util.ArrayList;
 
-public class Guard extends DynamicObject {
+public class Guard_Rookie extends DynamicObject
+{
 
 	private ArrayList<String> guardMovement = new ArrayList<String>();
 
@@ -13,33 +13,38 @@ public class Guard extends DynamicObject {
 
 	private int movementLength;
 	
+	
+	public Guard_Rookie(int x, int y, String[] movement) 
+	{
+		super(x, y, GUARDCHAR);
+		readmovement(movement);
+		// TODO Auto-generated constructor stub
+	}
+	
+	private void readmovement(String[] movement) 
+	{
+		movementLength = movement.length;
+
+	for (int i = 0; i < movement.length; i++) {
+
+		guardMovement.add(movement[i]);
+
+	}
+}
+	
 	public String getCurrentMovement() {
 		return guardMovement.get(currentMovement);
 
 	}
 
-	public Guard(int x, int y, String movement[]) {
-		super(x, y, GUARDCHAR);
-		readmovement(movement);
-
-	}
-
-	private void readmovement(String[] movement) {
-			movementLength = movement.length;
-
-		for (int i = 0; i < movement.length; i++) {
-
-			guardMovement.add(movement[i]);
-
-		}
-	}
-
+	
+	
 	public void update() {
 		
 		makeMove();
 		
 	}
-
+	
 	private void makeMove() {
 		String move = getCurrentMovement();
 		switch(move){
@@ -56,15 +61,9 @@ public class Guard extends DynamicObject {
 			moveLeft();
 			break;
 		}
+		
 		currentMovement++;
 		if(currentMovement==movementLength)
 			currentMovement=0;
-			
-		
 	}
-	
-	
-
 }
-
-*/

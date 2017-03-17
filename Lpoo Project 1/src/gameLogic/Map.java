@@ -4,6 +4,8 @@ package gameLogic;
 import java.util.*;
 
 public class Map {
+	
+	private int theGuardPersonality;
 
 	private ArrayList<GameObject> staticObject = new ArrayList<GameObject>(); // readysetgo
 
@@ -20,13 +22,6 @@ public class Map {
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
-	/*
-	public Map (char map[][])
-	{
-		readMap(map);
-	}
-	*/
-	
 	public Map(char map[][],String movement[]) {
 		readMap(map,movement);
 	}
@@ -82,34 +77,11 @@ public class Map {
 			staticObject.add(new Door(x, y));
 			break;
 		case 'G':
-			dynamicObject.add(new Guard(x, y, movement));
+			getRandomPersonalityGuard(x, y, movement);
 			break;
-		case 'k':
-			staticObject.add(new Lever(x, y));
-			break;
-		case 'H':
-			hx = x;
-			hy = y;
-			break;
-
-		}
-
-	}
-
-	
-	/*
-	public void createNewObject(char c, int x, int y) {
-
-		switch (c) {
-		case 'X':
-			staticObject.add(new Wall(x, y));
-			break;
-		case 'I':
-			staticObject.add(new Door(x, y));
-			break;
-		case 'O':
-			dynamicObject.add(new Ogre(x, y));
-			break;
+		//case 'O':
+			//dynamicObject.add(new Ogre(x, y, movement));
+			//break;
 		case 'k':
 			staticObject.add(new Lever(x, y));
 			break;
@@ -122,7 +94,25 @@ public class Map {
 
 	}
 	
-	*/
+	
+	public void getRandomPersonalityGuard(int x, int y, String movement[])
+	{
+		theGuardPersonality = 3;//1 + (int)(Math.random() * ((3 - 1) + 1));
+		
+		switch(theGuardPersonality)
+		{
+		case 1:
+			dynamicObject.add(new Guard_Rookie(x, y, movement));
+			break;
+		case 2: 
+			dynamicObject.add(new Guard_Drunken(x, y, movement));
+			break;
+		case 3: 
+			dynamicObject.add(new Guard_Suspicious(x, y, movement));
+		}
+	}
+	
+	
 
 	public GameObject readCoord(int x, int y) {
 		for (int i = 0; i < staticObject.size(); i++) {
@@ -150,23 +140,6 @@ public class Map {
 			}
 		}
 	}
-	
-	/*
-	public void readMap(char map[][]) {
-		maplength = map[0].length;
-		mapwidth = map.length;
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[y].length; x++) {
-				createNewObject(map[y][x], x, y);
-
-			}
-		}
-	}
-	
-*/
-	
-
-	
 
 	public void openDoors()
 	{
@@ -188,8 +161,29 @@ public class Map {
 	{
 		for(int i=0 ; i<dynamicObject.size() ; i++)
 		{
-			if(dynamicObject.get(i) instanceof Guard){
-				dynamicObject.get(i).update();
+			switch(theGuardPersonality)
+			{
+			case 1:
+			{
+				if(dynamicObject.get(i) instanceof Guard_Rookie)
+				{
+					dynamicObject.get(i).update();
+				}
+			}
+			case 2:
+			{
+				if(dynamicObject.get(i) instanceof Guard_Drunken)
+				{
+					dynamicObject.get(i).update();
+				}
+			}
+			case 3:
+			{
+				if(dynamicObject.get(i) instanceof Guard_Suspicious)
+				{
+					dynamicObject.get(i).update();
+				}
+			}
 			}
 		}
 	}

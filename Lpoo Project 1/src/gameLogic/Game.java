@@ -1,6 +1,6 @@
 package gameLogic;
 
-import userInterface.ReadInput;
+import userInterface.ReadInput; 
 import java.util.ArrayList;
 
 
@@ -14,27 +14,20 @@ public class Game { // vars dde qqr objeto game
 
 	private int currentmap = 0;
 
-	public Game(int Level) // construtor
+//	private String currentmapname;
+
+	public Game() // construtor
 	{
-		if (Level == 1)
-		{
-			maps.add(new Map(map1, lvl1guardmovement));
-			
-			
-			running = true;
-			hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
-		}
-		
-		else if (Level == 2)
-		{
-			//maps.add(new Map(map2));
-			currentmap++;
-			running = true;
-			hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
-		}
-		
+		//maps.add(new Map(map0));
+//		currentmapname="map"+currentmap;
+		//System.out.println(currentmapname);
+		maps.add(new Map(map0, lvl0guardmovement));
+
+
+		running = true;
+		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+
 	}
-	
 
 	public char getinput() {
 		char c = ReadInput.read();
@@ -43,14 +36,14 @@ public class Game { // vars dde qqr objeto game
 
 	public void update() { //se tivesse tempo usava-se args
 		updatehero();
-		updatemap(); // falta fazer
+		updatemap(); 
 		checkGameStatus();
 		maps.get(currentmap).printMap(hero);
 
 	}
 
 	private void updatemap() {
-		
+
 		maps.get(currentmap).update();
 	}
 
@@ -63,10 +56,24 @@ public class Game { // vars dde qqr objeto game
 
 	private void checkDoor() {
 		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
-		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())){
-			hero.win();
-			running=false;
-		}
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())){	
+			if(currentmap==1){ 
+				hero.win();
+				running=false;
+//				printEndGameMessage();
+			}													//fix1trocar por currentmap++
+			else nextlevel();
+
+		}																			//fix2 tips. maps.size== n de mapas. index 0 = mapa nº1
+	}																				//if currentmap==maps.size() entao running =false
+
+	private void nextlevel() {
+		currentmap++; //pode ser 0 (map0), 1(map0 etc)
+
+		printNextLevelMessage();
+		maps.add(new Map(map1, lvl1guardmovement));
+		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+
 	}
 
 	public void checkHeroAlive() {
@@ -98,19 +105,19 @@ public class Game { // vars dde qqr objeto game
 
 	public void checkSurround(int hx, int hy) { // melhor maneira de fazer isto?
 		GameObject positiontocheckright = maps.get(currentmap).readCoord(hx + 1, hy);
-		if (positiontocheckright instanceof Guard) {
+		if (positiontocheckright instanceof Guard_Rookie || positiontocheckright instanceof Guard_Drunken || positiontocheckright instanceof Guard_Suspicious) {
 			hero.getHit();
 		}
 		GameObject positiontocheckleft = maps.get(currentmap).readCoord(hx - 1, hy);
-		if (positiontocheckleft instanceof Guard) {
+		if (positiontocheckleft instanceof Guard_Rookie || positiontocheckleft instanceof Guard_Drunken || positiontocheckleft instanceof Guard_Suspicious) {
 			hero.getHit();
 		}
 		GameObject positiontocheckdown = maps.get(currentmap).readCoord(hx, hy + 1);
-		if (positiontocheckdown instanceof Guard) {
+		if (positiontocheckdown instanceof Guard_Rookie || positiontocheckdown instanceof Guard_Drunken || positiontocheckdown instanceof Guard_Suspicious) {
 			hero.getHit();
 		}
 		GameObject positiontocheckup = maps.get(currentmap).readCoord(hx, hy - 1);
-		if (positiontocheckup instanceof Guard) {
+		if (positiontocheckup instanceof Guard_Rookie || positiontocheckup instanceof Guard_Drunken || positiontocheckup instanceof Guard_Suspicious) {
 			hero.getHit();
 		}
 
@@ -180,18 +187,21 @@ public class Game { // vars dde qqr objeto game
 		}
 	}
 
+	public void printNextLevelMessage() {
+		System.out.println("Congratulations!");
+		System.out.println("You beat this level!");
+
+
+	}
+
 	public void printEndGameMessage() {
 		if (hero.isAlive() == false){
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
-		else if (hero.hasWon() == true)
-		{
-			System.out.println("Level 1 Complete!!");
-			//System.out.println("Game Over!");
-			Game game2 = new Game(2);
-			game2.play();
-			
-	}
+		else if (hero.hasWon() == true){
+			System.out.println("You won!");
+			System.out.println("Game Over!");
+		}
 
 	}
 
@@ -205,21 +215,22 @@ public class Game { // vars dde qqr objeto game
 
 	}
 
-	private static String lvl1guardmovement[]={"left","down","down","down","down","left","left","left","left","left",
+	private static String lvl0guardmovement[]={"left","down","down","down","down","left","left","left","left","left",
 			"left","down","right","right","right","right","right","right","right","up","up","up","up","up",};
-	
-	private static char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+	private static String lvl1guardmovement[]={"up","down","right","left"};
+
+	private static char map0[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 			{ 'X', 'H', '0', '0', 'I', '0', 'X', '0', 'G', 'X' }, { 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
 			{ 'X', '0', 'I', '0', 'I', '0', 'X', '0', '0', 'X' }, { 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
 			{ 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
 			{ 'X', 'X', 'X', '0', 'X', 'X', 'X', 'X', '0', 'X' }, { 'X', '0', 'I', '0', 'I', '0', 'X', 'k', '0', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 
-	public static char map2[][] = { { 'X', 'I', 'X', 'X', 'X', 'I', 'I', 'X', 'X', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', 'H', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', 'O', '0', '0', '0', '0', '0', '0', '0', 'X' },
+	public static char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'X', '0', '0', '0', 'O', '0', '0', '0', 'k', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
 			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', 'k', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', 'H', '0', '0', '0', '0', '0', '0', '0', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 
 }
