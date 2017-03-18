@@ -15,6 +15,8 @@ public class Guard_Suspicious extends DynamicObject
 
 	private int movementLength;
 	
+	private int DirectionChangeCounter;
+	
 	
 	private int theDirection;
 	
@@ -24,6 +26,8 @@ public class Guard_Suspicious extends DynamicObject
 		super(x, y, GUARDCHAR);
 		currentMovement = 0;
 		theDirection = 1;
+		DirectionChangeCounter = 0;
+		movementLength = movement.length;
 		readmovement(movement);
 		// TODO Auto-generated constructor stub
 	}
@@ -33,25 +37,36 @@ public class Guard_Suspicious extends DynamicObject
 	{
 		movementLength = movement.length;
 
-	for (int i = 0; i < movement.length; i++) {
-
-		guardMovement.add(movement[i]);
-
+		for (int i = 0; i < movement.length; i++) 
+		{
+			guardMovement.add(movement[i]);
+		}
 	}
-}
 	
-	public String getCurrentMovement() {
+	
+	public String getCurrentMovement() 
+	{
 		return guardMovement.get(currentMovement);
-
 	}
+	
 	
 	public void tryToChangeDirection()
 	{
 		int theRandomNumber = 1 + (int)(Math.random() * ((10 - 1) + 1));
-		if (theRandomNumber >= 8)
+		if (theRandomNumber >= 10)
 		{
-			theDirection = (theDirection * (-1));
-			currentMovement--;
+			if(theDirection == 1)
+			{
+				theDirection = -1;
+				DirectionChangeCounter = -1;
+				currentMovement++;
+			}
+			else if(theDirection == -1)
+			{
+				theDirection = 1;
+				DirectionChangeCounter = -1;
+				currentMovement--;
+			}
 		}
 	}
 	
@@ -101,28 +116,34 @@ public class Guard_Suspicious extends DynamicObject
 			}
 		}
 		
-		if(currentMovement > 2)
+		if(DirectionChangeCounter >= 5)
 		{
 			tryToChangeDirection();
 		}
 		
+		DirectionChangeCounter++;
 		
-		/*
 		if(theDirection == 1)
 		{
-			currentMovement++;	
+			if(currentMovement == (movementLength - 1))
+			{
+				currentMovement = 0;
+			}
+			else
+			{
+				currentMovement++;
+			}	
 		}
 		else
 		{
-			currentMovement--;
-		}
-		*/
-		
-		currentMovement++;
-		
-		if(currentMovement==movementLength)
-			currentMovement=0;
-			
-		
+			if(currentMovement == 0)
+			{
+				currentMovement = movementLength - 1;
+			}
+			else
+			{
+				currentMovement--;
+			}
+		}	
 	}
 }
