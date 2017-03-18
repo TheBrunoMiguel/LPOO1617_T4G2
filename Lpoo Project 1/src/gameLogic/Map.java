@@ -97,7 +97,7 @@ public class Map {
 	
 	public void getRandomPersonalityGuard(int x, int y, String movement[])
 	{
-		theGuardPersonality = 3;//1 + (int)(Math.random() * ((3 - 1) + 1));
+		theGuardPersonality = 2;//1 + (int)(Math.random() * ((3 - 1) + 1));
 		
 		switch(theGuardPersonality)
 		{
