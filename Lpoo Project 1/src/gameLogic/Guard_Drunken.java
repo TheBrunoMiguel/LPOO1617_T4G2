@@ -37,6 +37,19 @@ public class Guard_Drunken extends DynamicObject
 		// TODO Auto-generated constructor stub
 	}
 
+	public void changeChar()
+	{
+		if(GUARDCHAR == 'G')
+		GUARDCHAR = 'g';
+		else
+			GUARDCHAR = 'G';
+	}
+	
+	public char getc()
+	{
+		return GUARDCHAR;
+	}
+	
 	
 	private void readmovement(String[] movement) 
 	{
@@ -60,9 +73,10 @@ public class Guard_Drunken extends DynamicObject
 		int theDirectionChangeRate = 1 + (int)(Math.random() * ((10 - 1) + 1));		//determines if the Guard changes direction after waking up or not
 		int theRandomNumber = 1 + (int)(Math.random() * ((10 - 1) + 1));	//determines if the Guard falls asleep or not
 		
-		if (theRandomNumber >= 10)
+		if (theRandomNumber >= 8)
 		{
 			isGuardAsleep = true;
+			changeChar();
 			SleepCounter = -1;
 			//Falta meter aqui a cena de ele ficar com o char 'g' e de o heri nao morrer se ficar ao pe dele
 			
@@ -92,6 +106,7 @@ public class Guard_Drunken extends DynamicObject
 			if(SleepDuration == 0)
 			{
 				isGuardAsleep = false;
+				changeChar();
 				SleepDuration = 4;
 			}
 		}

@@ -12,15 +12,13 @@ public class Game { // vars dde qqr objeto game
 
 	private boolean running;
 
-	private int currentmap = 0;
+	private int currentmap;
 
 //	private String currentmapname;
 
 	public Game() // construtor
 	{
-		//maps.add(new Map(map0));
-//		currentmapname="map"+currentmap;
-		//System.out.println(currentmapname);
+		currentmap = 0;
 		maps.add(new Map(map0, lvl0guardmovement));
 
 
@@ -29,6 +27,33 @@ public class Game { // vars dde qqr objeto game
 
 	}
 
+	
+	public Game(char[][] theMap, String[] theGuardMovement)
+	{
+		currentmap = 0;
+		maps.add(new Map(theMap, theGuardMovement));
+		
+		running = true;
+		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());		
+	}
+	
+	
+	public Map getfirstMap()
+	{
+		return maps.get(0);
+	}
+	
+	public int getHeroY()
+	{
+		return hero.gety();
+	}
+	
+	public int getHeroX()
+	{
+		return hero.getx();
+	}
+	
+	
 	public char getinput() {
 		char c = ReadInput.read();
 		return c;
@@ -103,26 +128,64 @@ public class Game { // vars dde qqr objeto game
 
 	}
 
-	public void checkSurround(int hx, int hy) { // melhor maneira de fazer isto?
+	
+	public void checkSurround(int hx, int hy) 
+	{
 		GameObject positiontocheckright = maps.get(currentmap).readCoord(hx + 1, hy);
-		if (positiontocheckright instanceof Guard_Rookie || positiontocheckright instanceof Guard_Drunken || positiontocheckright instanceof Guard_Suspicious) {
+		if (positiontocheckright instanceof Guard_Rookie || positiontocheckright instanceof Guard_Suspicious) 
+		{
 			hero.getHit();
 		}
+		else if(positiontocheckright instanceof Guard_Drunken)
+		{
+			if(!((Guard_Drunken) positiontocheckright).isGuardAsleep)
+			{
+				hero.getHit();
+			}
+		}
+		
 		GameObject positiontocheckleft = maps.get(currentmap).readCoord(hx - 1, hy);
-		if (positiontocheckleft instanceof Guard_Rookie || positiontocheckleft instanceof Guard_Drunken || positiontocheckleft instanceof Guard_Suspicious) {
+		if (positiontocheckleft instanceof Guard_Rookie || positiontocheckleft instanceof Guard_Suspicious) 
+		{
 			hero.getHit();
 		}
+		else if(positiontocheckleft instanceof Guard_Drunken)
+		{
+			if(!((Guard_Drunken) positiontocheckleft).isGuardAsleep)
+			{
+				hero.getHit();
+			}
+		}
+		
 		GameObject positiontocheckdown = maps.get(currentmap).readCoord(hx, hy + 1);
-		if (positiontocheckdown instanceof Guard_Rookie || positiontocheckdown instanceof Guard_Drunken || positiontocheckdown instanceof Guard_Suspicious) {
+		if (positiontocheckdown instanceof Guard_Rookie || positiontocheckdown instanceof Guard_Suspicious) 
+		{
 			hero.getHit();
 		}
+		else if(positiontocheckdown instanceof Guard_Drunken)
+		{
+			if(!((Guard_Drunken) positiontocheckdown).isGuardAsleep)
+			{
+				hero.getHit();
+			}
+		}
+		
 		GameObject positiontocheckup = maps.get(currentmap).readCoord(hx, hy - 1);
-		if (positiontocheckup instanceof Guard_Rookie || positiontocheckup instanceof Guard_Drunken || positiontocheckup instanceof Guard_Suspicious) {
+		if (positiontocheckup instanceof Guard_Rookie || positiontocheckup instanceof Guard_Suspicious) 
+		{
 			hero.getHit();
+		}
+		else if(positiontocheckup instanceof Guard_Drunken)
+		{
+			if(!((Guard_Drunken) positiontocheckup).isGuardAsleep)
+			{
+				hero.getHit();
+			}
 		}
 
 	}
 
+	
 	public void trymoveLeft(int x, int y) {
 		GameObject positiontomove = maps.get(currentmap).readCoord(x - 1, y);
 		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))

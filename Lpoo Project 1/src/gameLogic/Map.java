@@ -21,8 +21,9 @@ public class Map {
 	private int hx, hy, mapwidth, maplength;
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
-
-	public Map(char map[][],String movement[]) {
+	
+	public Map(char map[][],String movement[]) 
+	{
 		readMap(map,movement);
 	}
 
@@ -97,7 +98,7 @@ public class Map {
 	
 	public void getRandomPersonalityGuard(int x, int y, String movement[])
 	{
-		theGuardPersonality = 2;//1 + (int)(Math.random() * ((3 - 1) + 1));
+		theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
 		
 		switch(theGuardPersonality)
 		{
@@ -129,7 +130,8 @@ public class Map {
 		}
 		return null;
 	}
-
+	
+	
 	public void readMap(char map[][],String movement[]) {
 		maplength = map[0].length;
 		mapwidth = map.length;
