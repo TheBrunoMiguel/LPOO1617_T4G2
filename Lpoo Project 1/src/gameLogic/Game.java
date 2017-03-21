@@ -59,6 +59,12 @@ public class Game { // vars dde qqr objeto game
 		return c;
 	}
 
+	
+	public boolean getRunning()
+	{
+		return running;
+	}
+	
 	public void update() { //se tivesse tempo usava-se args
 		updatehero();
 		updatemap(); 

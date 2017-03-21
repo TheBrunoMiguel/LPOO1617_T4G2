@@ -41,16 +41,17 @@ public class TestDungeonGameLogic
 		assertEquals(true, theTest);
 	}
 	
-/*	
+
 	@Test
 	public void testHeroIsCapturedByGuaurd()
 	{
-		Map gameMap = new Map(map);
-		Game game = new Game(gameMap);
-		assertFalse(game.isGameOver());
+		Game game = new Game(map, theguardmovement);
+		int thex = game.getHeroX();
+		int they = game.getHeroY();
+		
+		assertFalse(!game.getRunning());
 		game.movehero('d');
-		assertTrue(game.isGameOver());
-		assertEquals(Game.DEFEAT, game.getEndStatus());
+		assertTrue(game.getRunning());
+		//assertEquals(Game.DEFEAT, game.getEndStatus());
 	}
-	*/
 }
