@@ -1,6 +1,6 @@
 package gameLogic;
 
-import gui.graphic;
+//import gui.graphic;
 
 //import java.lang.reflect.MalformedParametersException;
 import java.util.*;
@@ -74,6 +74,34 @@ public class Map {
 		System.out.print(SPACECHAR);
 
 	}
+	
+	
+	public String printObjectHere2(Hero hero, int x, int y)
+	{
+		String theString = "";
+		if (x == hero.getx() && y == hero.gety()) {
+			
+			theString = String.valueOf(hero.getc());
+			return theString;
+		}
+
+		for (int i = 0; i < staticObject.size(); i++) {
+			if (x == staticObject.get(i).getx() && y == staticObject.get(i).gety()) {
+				theString = String.valueOf(staticObject.get(i).getc());
+				return theString;
+
+			}
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+
+			if (x == dynamicObject.get(i).getx() && y == dynamicObject.get(i).gety()) {
+				theString = String.valueOf(dynamicObject.get(i).getc());
+				return theString;
+			}
+		}
+		theString = theString + SPACECHAR;
+		return theString;
+	}
 
 	public void printMap(Hero hero) {
 		for (int y = 0; y < mapwidth; y++) {
@@ -83,6 +111,23 @@ public class Map {
 			System.out.print(LINECHAR);
 		}
 	}
+	
+	
+	public String printMap2(Hero hero)
+	{
+		String theString = "";
+		for(int y = 0; y < mapwidth; y++)
+		{
+			for(int x = 0; x < maplength; x++)
+			{
+				theString = theString + printObjectHere2(hero, x, y);
+			}	
+			theString = theString + LINECHAR;
+		}
+		theString = theString + LINECHAR;
+		return theString;
+	}
+	
 
 	public void createNewObject(char c, int x, int y, String movement[]) {
 

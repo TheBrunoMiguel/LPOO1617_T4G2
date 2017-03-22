@@ -1,6 +1,8 @@
 package gui;
 
 import gameLogic.Game;
+import gameLogic.Hero;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -90,6 +92,10 @@ public class graphic {
 		frmTheDungeonKeeper.getContentPane().add(textArea);
 		
 		JButton btnLeft = new JButton("Left");
+		btnLeft.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnLeft.setEnabled(false);
 		btnLeft.setBounds(284, 73, 63, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnLeft);
@@ -104,11 +110,19 @@ public class graphic {
 		frmTheDungeonKeeper.getContentPane().add(btnUp);
 		
 		JButton btnRight = new JButton("Right");
+		btnRight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRight.setEnabled(false);
 		btnRight.setBounds(359, 73, 62, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnRight);
 		
 		JButton btnDown = new JButton("Down");
+		btnDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnDown.setEnabled(false);
 		btnDown.setBounds(324, 107, 73, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnDown);
@@ -139,8 +153,16 @@ public class graphic {
 				String theIndications = "Game ON!";
 				lblIndicationsToThe.setText(theIndications);
 				
-				Game game = new Game(theGuardPersonality, theNumberOfOgres);
-				game.play();	
+				Hero hero = new Hero(0, 0);
+				
+				
+				
+				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero);
+				
+				textArea.setText(game.getfirstMap().printMap2(hero));
+				
+				game.play();
+				
 			}
 		});
 		btnNewGame.setBounds(324, 181, 97, 25);

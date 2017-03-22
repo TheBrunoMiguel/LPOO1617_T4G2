@@ -8,6 +8,7 @@ public class Hero extends DynamicObject {
 
 	private boolean won;
 
+	
 	public Hero(int x, int y) {
 		super(x, y, HEROCHAR);
 		won = false;

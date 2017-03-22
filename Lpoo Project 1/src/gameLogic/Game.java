@@ -28,14 +28,16 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	
-	public Game(int theGuardPersonality, int numberOfOgres)
+	public Game(int theGuardPersonality, int numberOfOgres, Hero theHero)
 	{
 		currentmap = 0;
 		maps.add(new Map(map0, lvl0guardmovement, theGuardPersonality, numberOfOgres));
 		
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		theHero = hero;
 	}
+	
 	
 	public Game(char[][] theMap, String[] theGuardMovement)
 	{
