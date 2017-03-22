@@ -28,6 +28,15 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	
+	public Game(int theGuardPersonality, int numberOfOgres)
+	{
+		currentmap = 0;
+		maps.add(new Map(map0, lvl0guardmovement, theGuardPersonality, numberOfOgres));
+		
+		running = true;
+		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+	}
+	
 	public Game(char[][] theMap, String[] theGuardMovement)
 	{
 		currentmap = 0;

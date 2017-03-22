@@ -1,11 +1,15 @@
 package gameLogic;
 
+import gui.graphic;
+
 //import java.lang.reflect.MalformedParametersException;
 import java.util.*;
 
 public class Map {
 	
 	private int theGuardPersonality;
+	
+	private int NumberOfOgres;
 
 	private ArrayList<GameObject> staticObject = new ArrayList<GameObject>(); // readysetgo
 
@@ -24,9 +28,19 @@ public class Map {
 	
 	public Map(char map[][],String movement[]) 
 	{
+		theGuardPersonality = 0;
 		readMap(map,movement);
 	}
 
+	
+	public Map(char map[][], String movement[], int guardPersonality, int numberOfOgres)
+	{
+		theGuardPersonality = guardPersonality;
+		NumberOfOgres = numberOfOgres;
+		readMap(map, movement);
+	}
+	
+	
 	public int getstarty() {
 		return hy;
 	}
@@ -35,8 +49,10 @@ public class Map {
 		return hx;
 	}
 
-	public void printObjectHere(Hero hero, int x, int y) {
+	public void printObjectHere(Hero hero, int x, int y) 
+	{
 		if (x == hero.getx() && y == hero.gety()) {
+			
 			System.out.print(hero.getc());
 			return; // atençao lol
 		}
@@ -98,7 +114,10 @@ public class Map {
 	
 	public void getRandomPersonalityGuard(int x, int y, String movement[])
 	{
-		theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
+		if(theGuardPersonality == 0)
+		{
+			theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
+		}
 		
 		switch(theGuardPersonality)
 		{
