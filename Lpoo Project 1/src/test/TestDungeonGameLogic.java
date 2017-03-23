@@ -46,12 +46,101 @@ public class TestDungeonGameLogic
 	public void testHeroIsCapturedByGuaurd()
 	{
 		Game game = new Game(map, theguardmovement);
-		int thex = game.getHeroX();
-		int they = game.getHeroY();
 		
 		assertFalse(!game.getRunning());
 		game.movehero('d');
 		assertTrue(game.getRunning());
+		assertEquals(false, game.getisWinLevel1());
 		//assertEquals(Game.DEFEAT, game.getEndStatus());
+	}
+	
+	
+	@Test
+	public void testHeroMovesIntoWall()
+	{
+		Game game = new Game(map, theguardmovement);
+
+		int thex = game.getHeroX();
+		int they = game.getHeroY();
+		
+		game.movehero('w');
+		
+		boolean isXSame = false;
+		boolean isYSame = false;
+		boolean theTest = false;
+		
+		if(thex == game.getHeroX())
+			isXSame = true;
+		if(they == game.getHeroY())
+			isYSame = true;
+		
+		if((isXSame == true) && (isYSame == true))
+		{
+			theTest = true;
+		}
+		assertEquals(true, theTest);
+	}
+	
+	
+	@Test
+	public void testHeroMovesToDoorAndFails()
+	{
+		Game game = new Game(map, theguardmovement);
+
+		game.movehero('s');
+		
+		int thex = game.getHeroX();
+		int they = game.getHeroY();
+		
+		game.movehero('a');
+		
+		boolean isXSame = false;
+		boolean isYSame = false;
+		boolean theTest = false;
+		
+		if(thex == game.getHeroX())
+			isXSame = true;
+		if(they == game.getHeroY())
+			isYSame = true;
+		
+		if((isXSame == true) && (isYSame == true))
+		{
+			theTest = true;
+		}
+		assertEquals(true, theTest);
+	}
+	
+	
+	@Test
+	public void testHeroMovesToLeverAndDoorsOpen()
+	{
+		Game game = new Game(map, theguardmovement);
+
+		game.movehero('s');	
+		game.movehero('s');
+		game.checkLever();
+		game.movehero('w');
+		
+		boolean isDoorOpen = game.checkDoorOnTheLeft(game.getHeroX(), game.getHeroY());
+	
+		assertTrue(isDoorOpen);
+	}
+	
+	
+	@Test
+	public void testHeroMovesIntoOpenDoorsAndWins()
+	{
+		Game game = new Game(map, theguardmovement);
+
+		game.movehero('s');	
+		game.movehero('s');
+		game.checkLever();
+		game.movehero('w');
+		game.movehero('a');
+		game.checkDoor2();
+		
+		boolean isLevel1Complete = game.getisWinLevel1();
+	
+		assertEquals(true, isLevel1Complete);
 	}
 }

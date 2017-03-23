@@ -4,24 +4,24 @@ import userInterface.ReadInput;
 import java.util.ArrayList;
 
 
-public class Game { // vars dde qqr objeto game
+public class Game {
 
-	private Hero hero; // Hero= classe, hero= objeto de Hero(tipo int i lul)
+	private Hero hero;
 
-	private ArrayList<Map> maps = new ArrayList<Map>(); // magic
+	private ArrayList<Map> maps = new ArrayList<Map>();
 
 	private boolean running;
 
 	private int currentmap;
 
-//	private String currentmapname;
+	private boolean isWinLevel1;
 
 	public Game() // construtor
 	{
 		currentmap = 0;
 		maps.add(new Map(map0, lvl0guardmovement));
 
-
+		isWinLevel1 = false;
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
 
@@ -33,6 +33,7 @@ public class Game { // vars dde qqr objeto game
 		currentmap = 0;
 		maps.add(new Map(map0, lvl0guardmovement, theGuardPersonality, numberOfOgres));
 		
+		isWinLevel1 = false;
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
 		theHero = hero;
@@ -44,6 +45,7 @@ public class Game { // vars dde qqr objeto game
 		currentmap = 0;
 		maps.add(new Map(theMap, theGuardMovement));
 		
+		isWinLevel1 = false;
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());		
 	}
@@ -96,11 +98,12 @@ public class Game { // vars dde qqr objeto game
 		checkLever();
 	}
 
-	private void checkDoor() {
+	public void checkDoor() {
 		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
 		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())){	
 			if(currentmap==1){ 
 				hero.win();
+				isWinLevel1 = true;
 				running=false;
 //				printEndGameMessage();
 			}													//fix1trocar por currentmap++
@@ -109,6 +112,30 @@ public class Game { // vars dde qqr objeto game
 		}																			//fix2 tips. maps.size== n de mapas. index 0 = mapa nº1
 	}																				//if currentmap==maps.size() entao running =false
 
+	
+	public void checkDoor2()
+	{
+		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen()))
+		{	 
+			hero.win();
+			isWinLevel1 = true;
+			running=false;
+		}													
+			else nextlevel();
+	}
+	
+	public boolean checkDoorOnTheLeft(int x, int y)
+	{
+		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(x - 1 , y);
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen()))
+		{
+			return true;
+		}
+		return false;
+	}
+		
+		
 	private void nextlevel() {
 		currentmap++; //pode ser 0 (map0), 1(map0 etc)
 
@@ -120,8 +147,15 @@ public class Game { // vars dde qqr objeto game
 
 	public void checkHeroAlive() {
 		if (hero.isAlive() == false) {
+			isWinLevel1 = false;
 			running = false;
 		}
+	}
+	
+	
+	public boolean getisWinLevel1()
+	{
+		return isWinLevel1;
 	}
 
 
@@ -203,7 +237,8 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	
-	public void trymoveLeft(int x, int y) {
+	public void trymoveLeft(int x, int y) 
+	{
 		GameObject positiontomove = maps.get(currentmap).readCoord(x - 1, y);
 		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
 			return;
@@ -276,9 +311,11 @@ public class Game { // vars dde qqr objeto game
 
 	public void printEndGameMessage() {
 		if (hero.isAlive() == false){
+			isWinLevel1 = false;
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
 		else if (hero.hasWon() == true){
+			isWinLevel1 = true;
 			System.out.println("You won!");
 			System.out.println("Game Over!");
 		}
