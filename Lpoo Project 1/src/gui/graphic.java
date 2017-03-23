@@ -155,7 +155,7 @@ public class graphic {
 				
 				Hero hero = new Hero(0, 0);
 				
-				
+				//test
 				
 				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero);
 				
