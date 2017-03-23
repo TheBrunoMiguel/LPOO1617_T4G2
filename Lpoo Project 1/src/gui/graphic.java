@@ -154,7 +154,7 @@ public class graphic {
 				lblIndicationsToThe.setText(theIndications);
 				
 				Hero hero = new Hero(0, 0);
-				
+				//as
 				
 				
 				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero);
