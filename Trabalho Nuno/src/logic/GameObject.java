@@ -27,6 +27,9 @@ public class GameObject
 		return c;
 	}
 	
+	public void changeLever(){
+		
+	}
 	
 	
 }

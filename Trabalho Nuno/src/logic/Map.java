@@ -20,8 +20,8 @@ public class Map {
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
-	public Map(char map[][],String movement[]) {
-		readMap(map,movement);
+	public Map(char map[][], String movement[]) {
+		readMap(map, movement);
 	}
 
 	public int getstarty() {
@@ -75,13 +75,13 @@ public class Map {
 			staticObject.add(new Door(x, y));
 			break;
 		case 'G':
-			dynamicObject.add(new Guard(x, y, movement,'G'));
+			dynamicObject.add(new Guard(x, y, movement));
 			break;
 		case 'O':
-			dynamicObject.add(new Guard(x, y, movement,'O'));
+			dynamicObject.add(new Ogre(x, y, movement,x + 1,y)); //mudar com filesgerir aqui club
 			break;
 		case 'k':
-			staticObject.add(new Lever(x, y));
+			staticObject.add(new Key(x, y));
 			break;
 		case 'H':
 			hx = x;
@@ -91,6 +91,24 @@ public class Map {
 		}
 
 	}
+
+	// public void checkOgreLever() { //e se retornar o x e o y do ogre e
+	// checkasse se tivesse em x e y do lever?
+	//
+	// for (int k = 0; k < dynamicObject.size(); k++) {
+	// if (dynamicObject.get(k) instanceof Ogre) {
+	// for (int i = 0; i < staticObject.size(); i++)
+	// if (staticObject.get(i) instanceof Lever) {
+	// if (staticObject.get(i).getx() == dynamicObject.get(k).getx()
+	// && staticObject.get(i).gety() == dynamicObject.get(k).gety())
+	// dynamicObject.get(k).changeLever(); //313123//wat
+	//// staticObject.get(i).changeLever();
+	//
+	// }
+	// else dynamicObject.get(k).ogreDoesntStepLever();
+	// }
+	// }
+	// }
 
 	public GameObject readCoord(int x, int y) {
 		for (int i = 0; i < staticObject.size(); i++) {
@@ -108,40 +126,77 @@ public class Map {
 		return null;
 	}
 
-	public void readMap(char map[][],String movement[]) {
+	public void readMap(char map[][], String movement[]) {
 		maplength = map[0].length;
 		mapwidth = map.length;
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {
-				createNewObject(map[y][x], x, y,movement);
+				createNewObject(map[y][x], x, y, movement);
 
 			}
 		}
 	}
 
-	public void openDoors()
-	{
-		for(int i=0 ; i<staticObject.size() ; i++)
-		{
-			int x=staticObject.get(i).getx(),y=staticObject.get(i).gety();
+	public void openDoors() {
+		for (int i = 0; i < staticObject.size(); i++) {
+			int x = staticObject.get(i).getx(), y = staticObject.get(i).gety();
 
-			if(staticObject.get(i) instanceof Door){
-				if(x==0||x==maplength||y==0||y==mapwidth)
-				{
+			if (staticObject.get(i) instanceof Door) {
+				if (x == 0 || x == maplength || y == 0 || y == mapwidth) {
 					((Door) staticObject.get(i)).openDoor();
-				}	
+				}
 			}
 		}
 
 	}
-	
-	public void update()
-	{
-		for(int i=0 ; i<dynamicObject.size() ; i++)
-		{
-			if(dynamicObject.get(i) instanceof Guard){
-				dynamicObject.get(i).update();
-			}
-		}
+
+	public Lever returnLever() {
+		for (int i = 0; i < staticObject.size(); i++)
+			if (staticObject.get(i) instanceof Lever)
+				return (Lever) staticObject.get(i);
+		return null;
 	}
+
+	public Ogre returnOgre() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof Ogre)
+				return (Ogre) dynamicObject.get(i);
+		return null;
+	}
+
+	public void update() {
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			dynamicObject.get(i).update();
+			
+			if (dynamicObject.get(i) instanceof Ogre) {
+				dynamicObject.get(i).update(staticObject);
+				// System.out.println(dynamicObject.get(i).getc());
+			}
+
+		
+		}
+		updateLeverOgre();
+	}
+
+	private void updateLeverOgre() {
+		Ogre tmpOgre = returnOgre();
+		Lever tmpLever = returnLever();
+		
+		if(tmpOgre == null)
+			return;
+		if((tmpOgre.getx()==tmpLever.getx()) && (tmpOgre.gety()==tmpLever.gety()))
+		{
+			tmpOgre.ogreStepsLever();
+			tmpLever.leverStepByOgre();
+			
+		}
+		else
+		{
+			tmpOgre.ogreDoesntStepLever();
+			tmpLever.leverNotStepByOgre();
+			
+		}
+		
+	}
+
 }

@@ -8,52 +8,41 @@ public class Guard extends DynamicObject {
 
 	private ArrayList<String> guardMovement = new ArrayList<String>();
 
-	private static char GUARDCHAR;
+	private static char GUARDCHAR='G';
 
 	private int currentMovement;
 
 	private int movementLength;
+//	
+//	private int direction;
+//	
+//	private int lastMovement;
 
-//	private String guardType;
+	//private int randomNbr;
 
-//	private Random randomNbrfunc = new Random();
-
-	private int randomNbr;
-
-	public Guard(int x, int y, String movement[], char GUARDCHAR) {
+	public Guard(int x, int y, String movement[]) {
 		super(x, y, GUARDCHAR);
-		randomNbr = 0;
-		Guard.GUARDCHAR=GUARDCHAR;
+	//	randomNbr = 0;
+//		Guard.GUARDCHAR=GUARDCHAR;
 		currentMovement = 0;
+//		lastMovement =
 		movementLength = movement.length;
 
 		readmovement(movement);
 	}
 
-//	private static char getGuardChar(String type) {
-//		if(type=="guard")
-//			return 'G';
-//		if(type=="ogre")
-//			return 'O';
-//		return 0;
-//		
-//	}
 
 	public String getCurrentMovement() {
-		if (GUARDCHAR == 'G') {
+
 			return guardMovement.get(currentMovement);
-		} else if (GUARDCHAR == 'O') {
 
-			return guardMovement.get(0 + (int) (Math.random() * movementLength));
-		}
-		return null;
 
 	}
 
-	public int getRandomNbr() {
-
-		return randomNbr;
-	}
+//	public int getRandomNbr() {
+//
+//		return randomNbr;
+//	}
 
 	private void readmovement(String[] movement) {
 
@@ -97,7 +86,17 @@ public class Guard extends DynamicObject {
 			moveLeft();
 			break;
 		}
+		
 		currentMovement++;
+//		if(direction==1)
+//		currentMovement++;
+//		
+//		else(direction==-1) 
+//		currentmovement--;
+//		
+//		
+//		lastMovement=direction;
+		
 		if (GUARDCHAR == 'G') {
 			if (currentMovement == movementLength)
 				currentMovement = 0;
