@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 
-public class Guard_Drunken extends DynamicObject
+public class Guard_Drunken extends Guard
 {
 	
 	private ArrayList<String> guardMovement = new ArrayList<String>();
@@ -26,7 +26,7 @@ public class Guard_Drunken extends DynamicObject
 	
 	public Guard_Drunken(int x, int y, String[] movement) 
 	{
-		super(x, y, GUARDCHAR);
+		super(x, y, movement);
 		currentMovement = 0;
 		theDirection = 1;
 		isGuardAsleep = false;

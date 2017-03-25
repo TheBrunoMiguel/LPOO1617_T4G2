@@ -277,7 +277,7 @@ public class Map {
 		
 	}
 	
-	
+	/*
 	public void update()
 	{
 		for(int i=0 ; i<dynamicObject.size() ; i++)
@@ -308,8 +308,8 @@ public class Map {
 			}
 		}
 	}
+	*/
 	
-	/*
 	public void update() {
 		int ox=0,oy=0;
 		for (int i = 0; i < dynamicObject.size(); i++) {
@@ -332,6 +332,6 @@ public class Map {
 		}
 		updateLeverOgre();
 	}
-	*/
+	
 }
 

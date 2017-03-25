@@ -173,71 +173,53 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	
-	public void checkSurround(int hx, int hy) 
-	{
+	public void checkSurround(int hx, int hy) { // check surround para hero nao
+		// morrer
+		/* ******************************** */
 		GameObject positiontocheckright = maps.get(currentmap).readCoord(hx + 1, hy);
-		if (positiontocheckright instanceof Guard_Rookie || positiontocheckright instanceof Guard_Suspicious || positiontocheckright instanceof Ogre || positiontocheckright instanceof Club) 
-		{
-			hero.getHit();
-		}
-		else if(positiontocheckright instanceof Guard_Drunken)
-		{
-			if(!((Guard_Drunken) positiontocheckright).isGuardAsleep)
-			{
+		if (positiontocheckright instanceof Guard_Drunken) {
+			if (!((Guard_Drunken) positiontocheckright).isGuardAsleep) {
 				hero.getHit();
 			}
+		} else if (positiontocheckright instanceof Guard || positiontocheckright instanceof Ogre
+				|| positiontocheckright instanceof Club) {
+			hero.getHit();
 		}
-		
+		/* ******************************** */
 		GameObject positiontocheckleft = maps.get(currentmap).readCoord(hx - 1, hy);
-		if (positiontocheckleft instanceof Guard_Rookie || positiontocheckleft instanceof Guard_Suspicious || positiontocheckleft instanceof Ogre || positiontocheckleft instanceof Club) 
-		{
-			hero.getHit();
-		}
-		else if(positiontocheckleft instanceof Guard_Drunken)
-		{
-			if(!((Guard_Drunken) positiontocheckleft).isGuardAsleep)
-			{
+		if (positiontocheckleft instanceof Guard_Drunken) {
+			if (!((Guard_Drunken) positiontocheckleft).isGuardAsleep) {
 				hero.getHit();
 			}
+		} else if (positiontocheckleft instanceof Guard || positiontocheckleft instanceof Ogre
+				|| positiontocheckleft instanceof Club) {
+			hero.getHit();
 		}
-		
+		/* ******************************** */
 		GameObject positiontocheckdown = maps.get(currentmap).readCoord(hx, hy + 1);
-		if (positiontocheckdown instanceof Guard_Rookie || positiontocheckdown instanceof Guard_Suspicious || positiontocheckdown instanceof Ogre || positiontocheckdown instanceof Club) 
-		{
-			hero.getHit();
-		}
-		else if(positiontocheckdown instanceof Guard_Drunken)
-		{
-			if(!((Guard_Drunken) positiontocheckdown).isGuardAsleep)
-			{
+		if (positiontocheckdown instanceof Guard_Drunken) {
+			if (!((Guard_Drunken) positiontocheckdown).isGuardAsleep) {
 				hero.getHit();
 			}
+		} else if (positiontocheckdown instanceof Guard || positiontocheckdown instanceof Ogre
+				|| positiontocheckdown instanceof Club) {
+			hero.getHit();
 		}
-		
+		/* ******************************** */
 		GameObject positiontocheckup = maps.get(currentmap).readCoord(hx, hy - 1);
-		if (positiontocheckup instanceof Guard_Rookie || positiontocheckup instanceof Guard_Suspicious || positiontocheckup instanceof Ogre || positiontocheckup instanceof Club) 
-		{
-			hero.getHit();
-		}
-		else if(positiontocheckup instanceof Guard_Drunken)
-		{
-			if(!((Guard_Drunken) positiontocheckup).isGuardAsleep)
-			{
+		if (positiontocheckup instanceof Guard_Drunken) {
+			if (!((Guard_Drunken) positiontocheckup).isGuardAsleep) {
 				hero.getHit();
 			}
+		} else if (positiontocheckup instanceof Guard || positiontocheckup instanceof Ogre
+				|| positiontocheckup instanceof Club) {
+			hero.getHit();
 		}
-		
+		/* ******************************** */
 		GameObject positiontochecktop = maps.get(currentmap).readCoord(hx, hy);
-		if (positiontochecktop instanceof Guard_Rookie || positiontochecktop instanceof Guard_Suspicious || positiontochecktop instanceof Ogre || positiontochecktop instanceof Club) 
-		{
+		if (positiontochecktop instanceof Guard || positiontochecktop instanceof Ogre
+				|| positiontochecktop instanceof Club) {
 			hero.getHit();
-		}
-		else if(positiontocheckup instanceof Guard_Drunken)
-		{
-			if(!((Guard_Drunken) positiontocheckup).isGuardAsleep)
-			{
-				hero.getHit();
-			}
 		}
 
 	}

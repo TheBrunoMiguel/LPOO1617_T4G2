@@ -2,7 +2,7 @@ package gameLogic;
 
 import java.util.ArrayList;
 
-public class Guard_Rookie extends DynamicObject
+public class Guard_Rookie extends Guard
 {
 
 	private ArrayList<String> guardMovement = new ArrayList<String>();
@@ -16,7 +16,7 @@ public class Guard_Rookie extends DynamicObject
 	
 	public Guard_Rookie(int x, int y, String[] movement) 
 	{
-		super(x, y, GUARDCHAR);
+		super(x, y, movement);
 		readmovement(movement);
 		// TODO Auto-generated constructor stub
 	}
