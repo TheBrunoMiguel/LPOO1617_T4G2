@@ -38,6 +38,11 @@ public class Guard_Rookie extends DynamicObject
 	}
 
 	
+	public int getCurrentMovement2()
+	{
+		return currentMovement;
+	}
+	
 	
 	public void update() {
 		
@@ -45,7 +50,7 @@ public class Guard_Rookie extends DynamicObject
 		
 	}
 	
-	private void makeMove() {
+	public void makeMove() {
 		String move = getCurrentMovement();
 		switch(move){
 		case "up":
