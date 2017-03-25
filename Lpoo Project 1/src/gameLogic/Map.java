@@ -141,9 +141,10 @@ public class Map {
 		case 'G':
 			getRandomPersonalityGuard(x, y, movement);
 			break;
-		//case 'O':
-			//dynamicObject.add(new Ogre(x, y, movement));
-			//break;
+		case 'O':
+			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files
+			dynamicObject.add(new Club(x,y, returnOgre(), movement));
+			break;
 		case 'k':
 			staticObject.add(new Lever(x, y));
 			break;
@@ -223,6 +224,60 @@ public class Map {
 
 	}
 	
+	
+	public Lever returnLever() {
+		for (int i = 0; i < staticObject.size(); i++)
+			if (staticObject.get(i) instanceof Lever)
+				return (Lever) staticObject.get(i);
+		return null;
+	}
+
+	public Ogre returnOgre() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof Ogre)
+				return (Ogre) dynamicObject.get(i);
+		return null;
+	}
+	
+	public Club returnClub() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof Club)
+				return  (Club) dynamicObject.get(i);
+		return null;
+	}
+	
+	
+	private void updateLeverOgre() { //FAZER UM PARA CLUB E FAZER O RETURNCLUB
+		Ogre tmpOgre = returnOgre();
+		Lever tmpLever = returnLever();
+		Club tmpClub = returnClub();
+		
+		if(tmpOgre == null)
+			return;
+		if((tmpOgre.getx()==tmpLever.getx()) && (tmpOgre.gety()==tmpLever.gety()))
+		{
+			tmpOgre.ogreStepsLever();
+			tmpLever.leverStepByOgre();
+			
+		}
+		
+		else 	if((tmpClub.getx()==tmpLever.getx()) && (tmpClub.gety()==tmpLever.gety()))
+		{
+			tmpClub.clubStepsLever();
+			tmpLever.leverStepByOgre();
+			
+		}
+		else
+		{
+			tmpOgre.ogreDoesntStepLever();
+			tmpLever.leverNotStepByOgre();
+			tmpClub.clubDoesntStepLever();
+			
+		}
+		
+	}
+	
+	
 	public void update()
 	{
 		for(int i=0 ; i<dynamicObject.size() ; i++)
@@ -253,4 +308,30 @@ public class Map {
 			}
 		}
 	}
+	
+	/*
+	public void update() {
+		int ox=0,oy=0;
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			dynamicObject.get(i).update();
+			
+			if (dynamicObject.get(i) instanceof Ogre) {
+				dynamicObject.get(i).update(staticObject);
+				ox=dynamicObject.get(i).getx();
+				oy=dynamicObject.get(i).gety();
+				
+			}
+
+
+		
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			if (dynamicObject.get(i) instanceof Club) {
+				dynamicObject.get(i).update(staticObject, ox,oy);
+			}
+		}
+		updateLeverOgre();
+	}
+	*/
 }
+

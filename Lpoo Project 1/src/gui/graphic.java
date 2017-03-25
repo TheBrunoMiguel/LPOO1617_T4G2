@@ -1,5 +1,6 @@
 package gui;
 
+import userInterface.Main;
 import gameLogic.Game;
 import gameLogic.Hero;
 
@@ -17,6 +18,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import userInterface.ReadInput;
+
 
 public class graphic {
 
@@ -160,7 +163,14 @@ public class graphic {
 				
 				textArea.setText(game.getfirstMap().printMap2(hero));
 				
-				game.play();
+				game.printmap(); //primeiro print, 
+				while(game.isRunning()){
+					Main theMain = new userInterface.Main();
+					char c;
+					c=theMain.getinput();			//NAO SEI SE ISTO RESULTA
+					game.update(c);
+					}
+				game.printEndGameMessage();
 				
 			}
 		});
