@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 
-public class Guard_Suspicious extends DynamicObject
+public class Guard_Suspicious extends Guard
 {
 	
 	private ArrayList<String> guardMovement = new ArrayList<String>();
@@ -23,7 +23,7 @@ public class Guard_Suspicious extends DynamicObject
 	
 	public Guard_Suspicious(int x, int y, String[] movement) 
 	{
-		super(x, y, GUARDCHAR);
+		super(x, y, movement);
 		currentMovement = 0;
 		theDirection = 1;
 		DirectionChangeCounter = 0;
@@ -47,23 +47,6 @@ public class Guard_Suspicious extends DynamicObject
 	public String getCurrentMovement() 
 	{
 		return guardMovement.get(currentMovement);
-	}
-	
-	
-	public int getCurrentMovement2()
-	{
-		return currentMovement;
-	}
-	
-	
-	public int getDirectionChangeCounter()
-	{
-		return DirectionChangeCounter;
-	}
-	
-	public int getDirection()
-	{
-		return theDirection;
 	}
 	
 	
@@ -94,7 +77,7 @@ public class Guard_Suspicious extends DynamicObject
 		
 	}
 	
-	public void makeMove() {
+	private void makeMove() {
 		String move = getCurrentMovement();
 		if(theDirection == 1)
 		{
