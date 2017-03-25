@@ -78,8 +78,8 @@ public class Map {
 			dynamicObject.add(new Guard(x, y, movement));
 			break;
 		case 'O':
-			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files //ADD CLUB E GERIR AQUI OU NO OGRE??
-			//dynamicObject.add(new Club(x,y,movement));
+			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files
+			dynamicObject.add(new Club(x,y, returnOgre(), movement));
 			break;
 		case 'k':
 			staticObject.add(new Key(x, y));
@@ -92,24 +92,6 @@ public class Map {
 		}
 
 	}
-
-	// public void checkOgreLever() { //e se retornar o x e o y do ogre e
-	// checkasse se tivesse em x e y do lever?
-	//
-	// for (int k = 0; k < dynamicObject.size(); k++) {
-	// if (dynamicObject.get(k) instanceof Ogre) {
-	// for (int i = 0; i < staticObject.size(); i++)
-	// if (staticObject.get(i) instanceof Lever) {
-	// if (staticObject.get(i).getx() == dynamicObject.get(k).getx()
-	// && staticObject.get(i).gety() == dynamicObject.get(k).gety())
-	// dynamicObject.get(k).changeLever(); //313123//wat
-	//// staticObject.get(i).changeLever();
-	//
-	// }
-	// else dynamicObject.get(k).ogreDoesntStepLever();
-	// }
-	// }
-	// }
 
 	public GameObject readCoord(int x, int y) {
 		for (int i = 0; i < staticObject.size(); i++) {
@@ -164,25 +146,20 @@ public class Map {
 				return (Ogre) dynamicObject.get(i);
 		return null;
 	}
-
-	public void update() {
-		for (int i = 0; i < dynamicObject.size(); i++) {
-			dynamicObject.get(i).update();
-			
-			if (dynamicObject.get(i) instanceof Ogre) {
-				dynamicObject.get(i).update(staticObject);
-				// System.out.println(dynamicObject.get(i).getc());
-			}
-
-		
-		}
-		updateLeverOgre();
-		//updateCLub();
+	
+	public Club returnClub() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof Club)
+				return  (Club) dynamicObject.get(i);
+		return null;
 	}
 
-	private void updateLeverOgre() {
+
+ 
+	private void updateLeverOgre() { //FAZER UM PARA CLUB E FAZER O RETURNCLUB
 		Ogre tmpOgre = returnOgre();
 		Lever tmpLever = returnLever();
+		Club tmpClub = returnClub();
 		
 		if(tmpOgre == null)
 			return;
@@ -192,13 +169,44 @@ public class Map {
 			tmpLever.leverStepByOgre();
 			
 		}
+		
+		else 	if((tmpClub.getx()==tmpLever.getx()) && (tmpClub.gety()==tmpLever.gety()))
+		{
+			tmpClub.clubStepsLever();
+			tmpLever.leverStepByOgre();
+			
+		}
 		else
 		{
 			tmpOgre.ogreDoesntStepLever();
 			tmpLever.leverNotStepByOgre();
+			tmpClub.clubDoesntStepLever();
 			
 		}
 		
 	}
 
+	
+	public void update() {
+		int ox=0,oy=0;
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			dynamicObject.get(i).update();
+			
+			if (dynamicObject.get(i) instanceof Ogre) {
+				dynamicObject.get(i).update(staticObject);
+				ox=dynamicObject.get(i).getx();
+				oy=dynamicObject.get(i).gety();
+				
+			}
+
+
+		
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			if (dynamicObject.get(i) instanceof Club) {
+				dynamicObject.get(i).update(staticObject, ox,oy);
+			}
+		}
+		updateLeverOgre();
+	}
 }

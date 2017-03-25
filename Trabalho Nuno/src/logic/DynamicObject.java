@@ -41,6 +41,9 @@ public class DynamicObject extends GameObject
 	public void update(ArrayList<GameObject> staticObject)
 	{
 	}
+	public void update(ArrayList<GameObject> staticObject, int ox, int oy) {
+
+	}
 	public void reset(int x, int y){	
 	}
 	

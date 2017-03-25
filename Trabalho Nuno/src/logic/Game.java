@@ -1,6 +1,5 @@
 package logic;
 
-import cli.ReadInput; 
 import java.util.ArrayList;
 
 
@@ -14,12 +13,11 @@ public class Game { // vars dde qqr objeto game
 
 	private int currentmap = 0;
 
-//	private String currentmapname;
 
-	public Game() // construtor
+	public Game() 
 	{
 		//maps.add(new Map(map0));
-//		currentmapname="map"+currentmap;
+		//currentmapname="map"+currentmap;
 		//System.out.println(currentmapname);
 		maps.add(new Map(map0, lvl0guardmovement));
 		maps.add(new Map(map1, lvl1guardmovement));	
@@ -30,7 +28,7 @@ public class Game { // vars dde qqr objeto game
 
 	}
 
-	public void update(char c) { //se tivesse tempo usava-se args
+	public void update(char c) { 
 
 		updatehero(c);
 		
@@ -84,8 +82,8 @@ public class Game { // vars dde qqr objeto game
 
 
 	public void checkLever() {
-		System.out.println(hero.getx());
-		System.out.println(hero.gety());
+//		System.out.println(hero.getx());
+//		System.out.println(hero.gety());
 		GameObject heropos = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
 		
 		if(heropos == null)
@@ -97,7 +95,7 @@ public class Game { // vars dde qqr objeto game
 			maps.get(currentmap).openDoors();
 			
 		}
-		if (heropos instanceof Key){
+		if (heropos instanceof Key&& currentmap==1){  //ver isto, so funciona direito com currentmap==1 !!!!!!!!!!!!!!
 			((Key)maps.get(currentmap).returnLever()).deleteKey();
 		}
 //		maps.get(currentmap).checkOgreLever();
@@ -117,23 +115,23 @@ public class Game { // vars dde qqr objeto game
 
 	public void checkSurround(int hx, int hy) { // check surround para hero nao morrer
 		GameObject positiontocheckright = maps.get(currentmap).readCoord(hx + 1, hy);
-		if (positiontocheckright instanceof Guard || positiontocheckright instanceof Ogre) {
+		if (positiontocheckright instanceof Guard || positiontocheckright instanceof Ogre || positiontocheckright instanceof Club) {
 			hero.getHit();
 		}
 		GameObject positiontocheckleft = maps.get(currentmap).readCoord(hx - 1, hy);
-		if (positiontocheckleft instanceof Guard || positiontocheckleft instanceof Ogre) {
+		if (positiontocheckleft instanceof Guard || positiontocheckleft instanceof Ogre || positiontocheckleft instanceof Club) {
 			hero.getHit();
 		}
 		GameObject positiontocheckdown = maps.get(currentmap).readCoord(hx, hy + 1);
-		if (positiontocheckdown instanceof Guard || positiontocheckdown instanceof Ogre) {
+		if (positiontocheckdown instanceof Guard || positiontocheckdown instanceof Ogre || positiontocheckdown instanceof Club) {
 			hero.getHit();
 		}
 		GameObject positiontocheckup = maps.get(currentmap).readCoord(hx, hy - 1);
-		if (positiontocheckup instanceof Guard || positiontocheckup instanceof Ogre) {
+		if (positiontocheckup instanceof Guard || positiontocheckup instanceof Ogre || positiontocheckup instanceof Club) {
 			hero.getHit();
 		}
 		GameObject positiontochecktop = maps.get(currentmap).readCoord(hx, hy);
-		if (positiontochecktop instanceof Guard || positiontochecktop instanceof Ogre) {
+		if (positiontochecktop instanceof Guard || positiontochecktop instanceof Ogre || positiontochecktop instanceof Club) {
 			hero.getHit();
 		}
 
@@ -235,7 +233,7 @@ public class Game { // vars dde qqr objeto game
 	private static String lvl0guardmovement[]={"left","down","down","down","down","left","left","left","left","left",
 			"left","down","right","right","right","right","right","right","right","up","up","up","up","up",};
 //	private static String lvl1guardmovement[]={"up","down","right","left"};
-	private static String lvl1guardmovement[]={"up","right","up","down"};
+	private static String lvl1guardmovement[]={"up","right","left","down"};
 
 	private static char map0[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 			{ 'X', 'H', '0', '0', 'I', '0', 'X', '0', 'G', 'X' }, 

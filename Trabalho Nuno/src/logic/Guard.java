@@ -2,8 +2,6 @@ package logic;
 
 import java.util.ArrayList;
 
-import java.util.Random;
-
 public class Guard extends DynamicObject {
 
 	private ArrayList<String> guardMovement = new ArrayList<String>();

@@ -9,7 +9,6 @@ public class Ogre extends DynamicObject {
 	private static char OGRECHAR = 'O';
 	private static char OGRECHAR_ON_LEVER = '$';
 	
-	private Club club;
 
 	private ArrayList<String> ogreMovement = new ArrayList<String>();
 
@@ -23,6 +22,7 @@ public class Ogre extends DynamicObject {
 		// currentMovement = 0;
 		movementLength = movement.length;
 		readmovement(movement);
+		
 		//club = new Club(xClub,yClub,'*');  //criar classe club, geri-la no map
 	}
 
