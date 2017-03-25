@@ -10,6 +10,11 @@ public class Club extends DynamicObject { //classe independente ou static object
 	}
 
 
+	public void updateClub(){
+		
+		
+	}
+	
 }
 
 /*

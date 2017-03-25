@@ -78,7 +78,8 @@ public class Map {
 			dynamicObject.add(new Guard(x, y, movement));
 			break;
 		case 'O':
-			dynamicObject.add(new Ogre(x, y, movement,x + 1,y)); //mudar com filesgerir aqui club
+			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files //ADD CLUB E GERIR AQUI OU NO OGRE??
+			//dynamicObject.add(new Club(x,y,movement));
 			break;
 		case 'k':
 			staticObject.add(new Key(x, y));
@@ -176,6 +177,7 @@ public class Map {
 		
 		}
 		updateLeverOgre();
+		//updateCLub();
 	}
 
 	private void updateLeverOgre() {

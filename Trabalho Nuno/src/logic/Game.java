@@ -107,7 +107,7 @@ public class Game { // vars dde qqr objeto game
 		movehero(c);
 	}
 
-	public void movehero(char m) {		//colocar isto para o ogre no Map
+	public void movehero(char m) {		
 		int x, y;
 		x = hero.getx();
 		y = hero.gety();
