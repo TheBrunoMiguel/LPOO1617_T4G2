@@ -14,7 +14,7 @@ public class Game { // vars dde qqr objeto game
 
 	private int currentmap;
 
-//	private String currentmapname;
+	private boolean isWinLevel1;
 
 	public Game() // construtor
 	{
@@ -170,6 +170,35 @@ public class Game { // vars dde qqr objeto game
 		trymove(m, x, y);
 
 	}
+	
+	
+	public void checkDoor2()
+	{
+		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen()))
+		{	 
+			hero.win();
+			isWinLevel1 = true;
+			running=false;
+		}													
+		else nextlevel();
+	}
+
+	public boolean checkDoorOnTheLeft(int x, int y)
+	{
+		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(x - 1 , y);
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen()))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
+	public boolean getisWinLevel1()
+	{
+		return isWinLevel1;
+	}
 
 	
 	public void checkSurround(int hx, int hy) { // check surround para hero nao
@@ -297,9 +326,11 @@ public class Game { // vars dde qqr objeto game
 
 	public void printEndGameMessage() {
 		if (hero.isAlive() == false){
+			isWinLevel1 = false;
 			System.out.println("You died!");
 			System.out.println("Game Over!");}
 		else if (hero.hasWon() == true){
+			isWinLevel1 = true;
 			System.out.println("You won!");
 			System.out.println("Game Over!");
 		}

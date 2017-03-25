@@ -50,6 +50,23 @@ public class Guard_Suspicious extends Guard
 	}
 	
 	
+	public int getCurrentMovement2()
+	{
+		return currentMovement;
+	}
+	
+	
+	public int getDirectionChangeCounter()
+	{
+		return DirectionChangeCounter;
+	}
+		
+	public int getDirection()
+	{
+		return theDirection;
+	}
+	
+	
 	public void tryToChangeDirection()
 	{
 		int theRandomNumber = 1 + (int)(Math.random() * ((10 - 1) + 1));
@@ -77,7 +94,7 @@ public class Guard_Suspicious extends Guard
 		
 	}
 	
-	private void makeMove() {
+	public void makeMove() {
 		String move = getCurrentMovement();
 		if(theDirection == 1)
 		{

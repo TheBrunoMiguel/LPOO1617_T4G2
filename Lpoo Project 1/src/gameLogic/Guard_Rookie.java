@@ -36,6 +36,11 @@ public class Guard_Rookie extends Guard
 		return guardMovement.get(currentMovement);
 
 	}
+	
+	public int getCurrentMovement2()
+	{
+		return currentMovement;
+	}
 
 	
 	
@@ -45,7 +50,7 @@ public class Guard_Rookie extends Guard
 		
 	}
 	
-	private void makeMove() {
+	public void makeMove() {
 		String move = getCurrentMovement();
 		switch(move){
 		case "up":
