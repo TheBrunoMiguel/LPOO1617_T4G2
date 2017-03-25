@@ -15,6 +15,8 @@ public class Map {
 	// objetos
 	// usa-se
 	// staticObject//dynamicObject.add
+	
+	private int theGuardPersonality;
 
 	private int hx, hy, mapwidth, maplength;
 
@@ -75,7 +77,7 @@ public class Map {
 			staticObject.add(new Door(x, y));
 			break;
 		case 'G':
-			dynamicObject.add(new Guard(x, y, movement));
+			getRandomPersonalityGuard(x, y, movement);
 			break;
 		case 'O':
 			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files
@@ -91,6 +93,35 @@ public class Map {
 
 		}
 
+	}
+	
+	public void getRandomPersonalityGuard(int x, int y, String movement[])
+	{
+		if(theGuardPersonality == 0)
+		{
+			theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
+			System.out.println("personality:" + theGuardPersonality);
+		}
+//		theGuardPersonality =2;
+//		System.out.println("personality:" + theGuardPersonality);
+		switch(theGuardPersonality)
+		{
+		case 1:
+			System.out.println("GUARD ROOKIE");
+			dynamicObject.add(new Guard_Rookie(x, y, movement));
+			break;
+		case 2: 
+			System.out.println("GUARD DRUNKEN");
+			dynamicObject.add(new Guard_Drunken(x, y, movement));
+			break;
+		case 3: 
+			System.out.println("GUARD Suspicious");
+			dynamicObject.add(new Guard_Suspicious(x, y, movement));
+			break;
+			default:
+				System.out.println("ERROR: NO GUARD TYPE CREATED");
+				
+		}
 	}
 
 	public GameObject readCoord(int x, int y) {
