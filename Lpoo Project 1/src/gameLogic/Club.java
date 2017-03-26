@@ -10,7 +10,7 @@ public class Club extends DynamicObject { // classe independente ou static
 	private ArrayList<String> clubMovement = new ArrayList<String>();
 	private int movementLength;
 	private int clubID;
-
+	private int a=0;
 	// private Ogre ogreTmp;
 
 	public Club(int x, int y, String movement[],int clubID) {
