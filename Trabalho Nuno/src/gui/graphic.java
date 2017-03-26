@@ -154,27 +154,46 @@ public class graphic {
 		btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String theIndications;
 				int theGuardPersonality = 0;
 				int theNumberOfOgres = (int) Double.parseDouble(textField.getText());
+				if(theNumberOfOgres<1||theNumberOfOgres>5)
+				{
+					theIndications = "Invalid number of Ogres!";
+					lblIndicationsToThe.setText(theIndications);
+					btnLeft.setEnabled(false);
+					btnUp.setEnabled(false);
+					btnRight.setEnabled(false);
+					btnDown.setEnabled(false);
+					
+				}
+				else{
 				String theGuardPers = (String) comboBox.getSelectedItem();
-				if (theGuardPers == "Rookie")
+				switch(theGuardPers){
+				case "Rookie":
 					theGuardPersonality = 1;
-				else if (theGuardPers == "Drunken")
+					break;
+				case "Drunken":
 					theGuardPersonality = 2;
-				else
+					break;
+				case "Suspicious":
 					theGuardPersonality = 3;
-
+					break;
+				}
+				
+				
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
 				btnRight.setEnabled(true);
 				btnDown.setEnabled(true);
 
-				String theIndications = "Game started! Escape the prison!";
+				theIndications = "Game started! Escape the prison!";
 				lblIndicationsToThe.setText(theIndications);
 
-				game = new Game();
+				game = new Game(theNumberOfOgres,theGuardPersonality);
 
 				textArea.setText(game.returnStringMap());
+				}
 			}
 		});
 		btnNewGame.setBounds(324, 181, 97, 25);
@@ -182,11 +201,12 @@ public class graphic {
 	}
 
 	public void move(String movement) {
+		String theIndications;
 		
 		game.update(movement);
 		textArea.setText(game.returnStringMap());
-		String theIndications;
-		theIndications=game.giveMessage();
+		
+		theIndications=game.getCurrentMessage();
 		lblIndicationsToThe.setText(theIndications);
 		
 		if (!game.isRunning()) {
@@ -206,6 +226,7 @@ public class graphic {
 			btnRight.setEnabled(false);
 			btnDown.setEnabled(false);
 		}
+		game.resetCurrentMessage();
 
 	}
 }
