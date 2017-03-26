@@ -6,7 +6,7 @@ import java.util.*;
 public class Map {
 
 	private ArrayList<GameObject> staticObject = new ArrayList<GameObject>(); // readysetgo
-
+	
 	private ArrayList<DynamicObject> dynamicObject = new ArrayList<DynamicObject>(); // array
 	// em
 	// esteroides,
@@ -59,12 +59,50 @@ public class Map {
 	}
 
 	public void printMap(Hero hero) {
+		
 		for (int y = 0; y < mapwidth; y++) {
 			for (int x = 0; x < maplength; x++) {
-				printObjectHere(hero, x, y);
+				printObjectHere(hero, x, y); 
 			}
 			System.out.print(LINECHAR);
 		}
+	}
+	
+	public char getCharacterHere(Hero hero, int x, int y) {
+		if (x == hero.getx() && y == hero.gety()) {
+//			System.out.print(hero.getc());
+			return hero.getc(); // atençao lol
+		}
+
+		for (int i = 0; i < staticObject.size(); i++) {
+			if (x == staticObject.get(i).getx() && y == staticObject.get(i).gety()) {
+//System.out.print(staticObject.get(i).getc());
+				return staticObject.get(i).getc();
+
+			}
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+
+			if (x == dynamicObject.get(i).getx() && y == dynamicObject.get(i).gety()) {
+//				System.out.print(dynamicObject.get(i).getc());
+				return dynamicObject.get(i).getc();
+			}
+		}
+		
+		return SPACECHAR;
+
+	}
+
+	public String getMapString(Hero hero) {
+		
+		String printedmap = "";
+		for (int y = 0; y < mapwidth; y++) {
+			for (int x = 0; x < maplength; x++) {
+				printedmap += getCharacterHere(hero, x, y); 
+			}
+			printedmap += LINECHAR;
+		}
+		return printedmap;
 	}
 
 	public void createNewObject(char c, int x, int y, String movement[], int currentmap) {
