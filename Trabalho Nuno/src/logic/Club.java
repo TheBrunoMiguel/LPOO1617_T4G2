@@ -9,15 +9,20 @@ public class Club extends DynamicObject { // classe independente ou static
 	private static char CLUBCHAR_ON_LEVER = '$';
 	private ArrayList<String> clubMovement = new ArrayList<String>();
 	private int movementLength;
+	private int clubID;
 
 	// private Ogre ogreTmp;
 
-	public Club(int x, int y, Ogre ogre, String movement[]) {
+	public Club(int x, int y, String movement[],int clubID) {
 		super(x, y, CLUBCHAR);
 		movementLength = movement.length;
 		readmovement(movement);
+		this.clubID=clubID;
 		// ogreTmp=ogre;
 
+	}
+	public int getID(){
+		return clubID;
 	}
 
 	public void clubStepsLever() {
@@ -28,7 +33,7 @@ public class Club extends DynamicObject { // classe independente ou static
 		this.c = CLUBCHAR;
 	}
 
-	private void readmovement(String[] movement) {
+	public void readmovement(String[] movement) {
 
 		for (int i = 0; i < movement.length; i++) {
 

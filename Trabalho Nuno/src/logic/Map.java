@@ -15,15 +15,15 @@ public class Map {
 	// objetos
 	// usa-se
 	// staticObject//dynamicObject.add
-	
+
 	private int theGuardPersonality;
 
 	private int hx, hy, mapwidth, maplength;
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
-	public Map(char map[][], String movement[]) {
-		readMap(map, movement);
+	public Map(char map[][], String movement[], int currentmap) {
+		readMap(map, movement, currentmap);
 	}
 
 	public int getstarty() {
@@ -67,8 +67,8 @@ public class Map {
 		}
 	}
 
-	public void createNewObject(char c, int x, int y, String movement[]) {
-
+	public void createNewObject(char c, int x, int y, String movement[], int currentmap) {
+		int ndeogres = 1 + (int) (Math.random() * 5); // cria numero de 1 a 3
 		switch (c) {
 		case 'X':
 			staticObject.add(new Wall(x, y));
@@ -80,8 +80,19 @@ public class Map {
 			getRandomPersonalityGuard(x, y, movement);
 			break;
 		case 'O':
-			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files
-			dynamicObject.add(new Club(x,y, returnOgre(), movement));
+			System.out.println("nº de ogres:" + ndeogres); // usar ids pa
+															// identificar cada
+															// par, usar ids no
+															// update e no
+															// return?
+			for (int i = 1; i <= ndeogres; i++) {
+
+				dynamicObject.add(new Ogre(x, y, movement, i)); // mudar com
+																// files
+
+				dynamicObject.add(new OgreClub(x, y, movement, i));
+			}
+
 			break;
 		case 'k':
 			staticObject.add(new Key(x, y));
@@ -89,38 +100,38 @@ public class Map {
 		case 'H':
 			hx = x;
 			hy = y;
+			if (currentmap > 0) {
+				dynamicObject.add(new HeroClub(hx, hy, returnHero(), movement, 0));
+			}
 			break;
 
 		}
 
 	}
-	
-	public void getRandomPersonalityGuard(int x, int y, String movement[])
-	{
-		if(theGuardPersonality == 0)
-		{
-			theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
-			System.out.println("personality:" + theGuardPersonality);
+
+	public void getRandomPersonalityGuard(int x, int y, String movement[]) {
+		if (theGuardPersonality == 0) {
+			theGuardPersonality = 1 + (int) (Math.random() * ((3 - 1) + 1));
+			// System.out.println("personality:" + theGuardPersonality);
 		}
-//		theGuardPersonality =2;
-//		System.out.println("personality:" + theGuardPersonality);
-		switch(theGuardPersonality)
-		{
+		// theGuardPersonality =2;
+		// System.out.println("personality:" + theGuardPersonality);
+		switch (theGuardPersonality) {
 		case 1:
 			System.out.println("GUARD ROOKIE");
 			dynamicObject.add(new Guard_Rookie(x, y, movement));
 			break;
-		case 2: 
+		case 2:
 			System.out.println("GUARD DRUNKEN");
 			dynamicObject.add(new Guard_Drunken(x, y, movement));
 			break;
-		case 3: 
+		case 3:
 			System.out.println("GUARD Suspicious");
 			dynamicObject.add(new Guard_Suspicious(x, y, movement));
 			break;
-			default:
-				System.out.println("ERROR: NO GUARD TYPE CREATED");
-				
+		default:
+			System.out.println("ERROR: NO GUARD TYPE CREATED");
+
 		}
 	}
 
@@ -140,12 +151,12 @@ public class Map {
 		return null;
 	}
 
-	public void readMap(char map[][], String movement[]) {
+	public void readMap(char map[][], String movement[], int currentmap) {
 		maplength = map[0].length;
 		mapwidth = map.length;
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[y].length; x++) {
-				createNewObject(map[y][x], x, y, movement);
+				createNewObject(map[y][x], x, y, movement, currentmap);
 
 			}
 		}
@@ -177,67 +188,139 @@ public class Map {
 				return (Ogre) dynamicObject.get(i);
 		return null;
 	}
-	
+
 	public Club returnClub() {
 		for (int i = 0; i < dynamicObject.size(); i++)
 			if (dynamicObject.get(i) instanceof Club)
-				return  (Club) dynamicObject.get(i);
+				return (Club) dynamicObject.get(i);
 		return null;
 	}
 
+	public Hero returnHero() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof Hero)
+				return (Hero) dynamicObject.get(i);
+		return null;
+	}
 
- 
-	private void updateLeverOgre() { //FAZER UM PARA CLUB E FAZER O RETURNCLUB
+	public HeroClub returnHeroClub() {
+		for (int i = 0; i < dynamicObject.size(); i++)
+			if (dynamicObject.get(i) instanceof HeroClub)
+				return (HeroClub) dynamicObject.get(i);
+		return null;
+	}
+
+	private void updateLeverOgre() { // FAZER UM PARA CLUB E FAZER O RETURNCLUB
+										// // e preciso alterar isto?
 		Ogre tmpOgre = returnOgre();
 		Lever tmpLever = returnLever();
 		Club tmpClub = returnClub();
-		
-		if(tmpOgre == null)
+
+		if (tmpOgre == null)
 			return;
-		if((tmpOgre.getx()==tmpLever.getx()) && (tmpOgre.gety()==tmpLever.gety()))
-		{
+		if ((tmpOgre.getx() == tmpLever.getx()) && (tmpOgre.gety() == tmpLever.gety())) {
 			tmpOgre.ogreStepsLever();
 			tmpLever.leverStepByOgre();
-			
+
 		}
-		
-		else 	if((tmpClub.getx()==tmpLever.getx()) && (tmpClub.gety()==tmpLever.gety()))
-		{
+
+		else if ((tmpClub.getx() == tmpLever.getx()) && (tmpClub.gety() == tmpLever.gety())) {
 			tmpClub.clubStepsLever();
 			tmpLever.leverStepByOgre();
-			
-		}
-		else
-		{
+
+		} else {
 			tmpOgre.ogreDoesntStepLever();
 			tmpLever.leverNotStepByOgre();
 			tmpClub.clubDoesntStepLever();
-			
+
 		}
-		
+
 	}
 
-	
-	public void update() {
-		int ox=0,oy=0;
-		for (int i = 0; i < dynamicObject.size(); i++) {
-			dynamicObject.get(i).update();
-			
-			if (dynamicObject.get(i) instanceof Ogre) {
-				dynamicObject.get(i).update(staticObject);
-				ox=dynamicObject.get(i).getx();
-				oy=dynamicObject.get(i).gety();
-				
-			}
-
-
-		
-		}
+	public void updateOgreClub(int ogreID, int ox, int oy) {
 		for (int i = 0; i < dynamicObject.size(); i++) {
 			if (dynamicObject.get(i) instanceof Club) {
-				dynamicObject.get(i).update(staticObject, ox,oy);
+				if (dynamicObject.get(i).getID() == ogreID) {
+					dynamicObject.get(i).update(staticObject, ox, oy);
+				}
+
 			}
 		}
+
+	}
+
+	public void checkSurroundOgre(HeroClub heroclub, Ogre ogre) {
+		int ox = ogre.getx(), oy = ogre.gety();
+		int hx = heroclub.getx(), hy = heroclub.gety();
+//		System.out.println("ogrex: "+ox+" ogrey: "+oy);
+//		System.out.println("herox: "+hx+" heroy: "+hy);
+		if (hx == ox && (oy == hy + 1)) { // heroclub a baixo de ogre
+			ogre.getHit();
+		}
+		if ((hx == ox) && (oy == hy - 1)) { // heroclub acima de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx+1)) { //heroclub a direita de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx-1)) { //heroclub a esqerda de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx)) { //heroclub em cima do ogre
+			ogre.getHit();
+		}
+
+	}
+
+	public void updateOgre(HeroClub heroclub) {
+		int ox = 0, oy = 0;
+		int ogreID = 0;
+		for (int i = 0; i < dynamicObject.size(); i++) {
+
+			if (dynamicObject.get(i) instanceof Ogre) {
+				
+				ogreID = dynamicObject.get(i).getID();
+				dynamicObject.get(i).update(staticObject);
+
+				ox = dynamicObject.get(i).getx();
+				oy = dynamicObject.get(i).gety();
+
+				updateOgreClub(ogreID, ox, oy);
+				checkSurroundOgre(heroclub, (Ogre) dynamicObject.get(i));
+
+			}
+
+		}
+
+	}
+
+	public void updateHeroClub(Hero hero, int currentmap) {
+		if (currentmap > 0) {
+			int hx = hero.getx();
+			int hy = hero.gety();
+//			System.out.println(hx);
+//			System.out.println(hy);
+			for (int i = 0; i < dynamicObject.size(); i++) {
+
+				if (dynamicObject.get(i) instanceof HeroClub) {
+					dynamicObject.get(i).update(staticObject, hx, hy);
+
+				}
+
+			}
+		}
+	}
+
+	public void updateDynamicObjects() { //updata todos menos heroclub, ogre e lever(esta n sei se é dynamic but wtv)
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			dynamicObject.get(i).update();
+		}
+	}
+
+	public void update(Hero hero, int currentmap) {
+		updateDynamicObjects();
+		updateHeroClub(hero, currentmap);
+		updateOgre(returnHeroClub());
 		updateLeverOgre();
 	}
 }
