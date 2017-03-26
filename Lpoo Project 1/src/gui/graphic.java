@@ -1,6 +1,5 @@
 package gui;
 
-import userInterface.Main;
 import gameLogic.Game;
 import gameLogic.Hero;
 
@@ -20,11 +19,26 @@ import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import userInterface.ReadInput;
 
-
 public class graphic {
 
 	private JFrame frmTheDungeonKeeper;
 	private JTextField textField;
+	private JTextArea textArea;
+	private JComboBox comboBox;
+
+	private JLabel lblNumberOfOgres;
+	private JLabel lblGuardPersonality;
+	private JLabel lblIndicationsToThe;
+
+	private JButton btnLeft;
+	private JButton btnUp;
+	private JButton btnDown;
+	private JButton btnRight;
+	private JButton btnNewGame;
+	private JButton btnExitGame;
+
+	private Game game;
+	private boolean running;
 
 	/**
 	 * Launch the application.
@@ -58,28 +72,27 @@ public class graphic {
 		frmTheDungeonKeeper.setBounds(100, 100, 450, 300);
 		frmTheDungeonKeeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmTheDungeonKeeper.getContentPane().setLayout(null);
-		
-		JLabel lblNumberOfOgres = new JLabel("Number of Ogres");
+
+		lblNumberOfOgres = new JLabel("Number of Ogres");
 		lblNumberOfOgres.setBounds(0, 13, 106, 21);
 		frmTheDungeonKeeper.getContentPane().add(lblNumberOfOgres);
-		
+
 		textField = new JTextField();
 		textField.setText("3");
 		textField.setBounds(103, 12, 23, 21);
 		frmTheDungeonKeeper.getContentPane().add(textField);
 		textField.setColumns(10);
-		
-		JLabel lblGuardPersonality = new JLabel("Guard Personality");
+
+		lblGuardPersonality = new JLabel("Guard Personality");
 		lblGuardPersonality.setBounds(0, 41, 106, 16);
 		frmTheDungeonKeeper.getContentPane().add(lblGuardPersonality);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Rookie", "Drunken", "Suspicious"}));
+
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Rookie", "Drunken", "Suspicious" }));
 		comboBox.setBounds(118, 38, 94, 22);
 		frmTheDungeonKeeper.getContentPane().add(comboBox);
-		
-		
-		JButton btnExitGame = new JButton("Exit Game");
+
+		btnExitGame = new JButton("Exit Game");
 		btnExitGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -87,95 +100,133 @@ public class graphic {
 		});
 		btnExitGame.setBounds(324, 215, 97, 25);
 		frmTheDungeonKeeper.getContentPane().add(btnExitGame);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
+
+		textArea = new JTextArea();
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 13));
+		textArea.setEditable(false);
 		textArea.setBounds(10, 70, 243, 151);
 		frmTheDungeonKeeper.getContentPane().add(textArea);
-		
-		JButton btnLeft = new JButton("Left");
+
+		btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				move("Left");
 			}
 		});
 		btnLeft.setEnabled(false);
 		btnLeft.setBounds(284, 73, 63, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnLeft);
-		
-		JButton btnUp = new JButton("Up");
+
+		btnUp = new JButton("Up");
 		btnUp.setEnabled(false);
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				move("Up");
 			}
 		});
 		btnUp.setBounds(324, 39, 63, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnUp);
-		
-		JButton btnRight = new JButton("Right");
+
+		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				move("Right");
 			}
 		});
 		btnRight.setEnabled(false);
 		btnRight.setBounds(359, 73, 62, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnRight);
-		
-		JButton btnDown = new JButton("Down");
+
+		btnDown = new JButton("Down");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				move("Down");
 			}
 		});
 		btnDown.setEnabled(false);
 		btnDown.setBounds(324, 107, 73, 21);
 		frmTheDungeonKeeper.getContentPane().add(btnDown);
-		
-		JLabel lblIndicationsToThe = new JLabel("Indications to the Player");
+
+		lblIndicationsToThe = new JLabel("Insert options and start a new game!");
 		lblIndicationsToThe.setBounds(12, 229, 224, 21);
 		frmTheDungeonKeeper.getContentPane().add(lblIndicationsToThe);
-		
-		JButton btnNewGame = new JButton("New Game");
+
+		btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				int thecurrentmap = 0;
+			public void actionPerformed(ActionEvent e) {
+				String theIndications;
 				int theGuardPersonality = 0;
-				int theNumberOfOgres = (int)Double.parseDouble(textField.getText());
+				int theNumberOfOgres = (int) Double.parseDouble(textField.getText());
+				if(theNumberOfOgres<1||theNumberOfOgres>5)
+				{
+					theIndications = "Invalid number of Ogres!";
+					lblIndicationsToThe.setText(theIndications);
+					btnLeft.setEnabled(false);
+					btnUp.setEnabled(false);
+					btnRight.setEnabled(false);
+					btnDown.setEnabled(false);
+					
+				}
+				else{
 				String theGuardPers = (String) comboBox.getSelectedItem();
-				if(theGuardPers == "Rookie")
+				switch(theGuardPers){
+				case "Rookie":
 					theGuardPersonality = 1;
-				else if(theGuardPers == "Drunken")
+					break;
+				case "Drunken":
 					theGuardPersonality = 2;
-				else
+					break;
+				case "Suspicious":
 					theGuardPersonality = 3;
-			
+					break;
+				}
+				
+				
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
 				btnRight.setEnabled(true);
 				btnDown.setEnabled(true);
-				
-				String theIndications = "Game ON!";
+
+				theIndications = "Game started! Escape the prison!";
 				lblIndicationsToThe.setText(theIndications);
-				
-				Hero hero = new Hero(0, 0);
-				
-				
-				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero,  thecurrentmap);
-				
-				textArea.setText(game.getfirstMap().printMap2(hero));
-				
-				game.printmap(); //primeiro print, 
-				while(game.isRunning()){
-					Main theMain = new userInterface.Main();
-					char c;
-					c=theMain.getinput();			//NAO SEI SE ISTO RESULTA
-					game.update(c);
-					}
-				game.printEndGameMessage();
-				
+
+				game = new Game(theNumberOfOgres,theGuardPersonality);
+
+				textArea.setText(game.returnStringMap());
+				}
 			}
 		});
 		btnNewGame.setBounds(324, 181, 97, 25);
 		frmTheDungeonKeeper.getContentPane().add(btnNewGame);
+	}
+
+	public void move(String movement) {
+		String theIndications;
+		
+		game.update(movement);
+		textArea.setText(game.returnStringMap());
+		
+		theIndications=game.getCurrentMessage();
+		lblIndicationsToThe.setText(theIndications);
+		
+		if (!game.isRunning()) {
+
+			
+			
+			if (game.isHeroWinner()) {
+				theIndications = "You Won!";
+				lblIndicationsToThe.setText(theIndications);
+			} else {
+				theIndications = "You Lost!";
+				lblIndicationsToThe.setText(theIndications);
+			}
+
+			btnLeft.setEnabled(false);
+			btnUp.setEnabled(false);
+			btnRight.setEnabled(false);
+			btnDown.setEnabled(false);
+		}
+		game.resetCurrentMessage();
+
 	}
 }

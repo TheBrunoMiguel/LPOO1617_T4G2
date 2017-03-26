@@ -12,16 +12,19 @@ public class Game { // vars dde qqr objeto game
 
 	private boolean running;
 
+	private String currentMessage=" ";
+
 	private int currentmap = 0;
+	
+	private int nOfOgres=-1;
+	
+	private int guardtype=-1;
 	
 	private boolean isWinLevel1;
 
 	public Game() {
-		// maps.add(new Map(map0));
-		// currentmapname="map"+currentmap;
-		// System.out.println(currentmapname);
-		maps.add(new Map(map0, lvl0guardmovement,0));
-		maps.add(new Map(map1, lvl1guardmovement,1));
+		maps.add(new Map(map0, lvl0guardmovement, 0,nOfOgres,guardtype));
+		maps.add(new Map(map1, lvl1guardmovement, 1,nOfOgres,guardtype));
 
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
@@ -38,6 +41,18 @@ public class Game { // vars dde qqr objeto game
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
 		theHero = hero;
+	}
+	
+	public Game(int nOgres,int typeguard) {
+		nOfOgres=nOgres;
+		guardtype=typeguard;
+		maps.add(new Map(map0, lvl0guardmovement, 0,nOfOgres,guardtype));
+		maps.add(new Map(map1, lvl1guardmovement, 1,nOfOgres,guardtype));
+		
+		running = true;
+		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		System.out.println(nOfOgres);
+
 	}
 	
 	
@@ -105,6 +120,40 @@ public class Game { // vars dde qqr objeto game
 		maps.get(currentmap).printMap(hero);
 
 	}
+	public void update(String s) {
+		char c=getMovementChar(s);
+
+		updatehero(c);
+		updatemap();
+		checkGameStatus();
+
+	}
+	public void resetCurrentMessage(){
+		currentMessage=" ";
+	}
+	public void setCurrentMessage(String m){
+		currentMessage=m;
+	}
+	
+	public String getCurrentMessage(){
+		return currentMessage;
+	}
+	
+	public char getMovementChar(String s){
+		
+		switch(s){
+		case "Left":
+			return 'a';
+		case "Right":
+			return 'd';
+		case "Up":
+			return 'w';
+		case "Down":
+			return 's';
+		}
+		
+		return ' ';
+	}
 
 	private void updatemap() {
 
@@ -118,6 +167,9 @@ public class Game { // vars dde qqr objeto game
 		checkLever();
 	}
 
+	public boolean isHeroWinner(){
+		return hero.hasWon();
+	}
 	private void checkDoor() {
 		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
 		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())) {
@@ -130,15 +182,19 @@ public class Game { // vars dde qqr objeto game
 
 		}
 	}
+	public String returnStringMap() {
+
+		return maps.get(currentmap).getMapString(hero);
+	}
 
 	private void nextlevel() {
 		// System.out.println("mapa 0: " + maps.get(0).getstartx()+hero.getx()+"
 		// "+maps.get(0).getstartx()+hero.gety());
 		currentmap++;
+		setCurrentMessage("Now, find the key to escape!");
 		printNextLevelMessage();
 		hero.reset(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
 		hero.heroHasClub();
-		
 
 		// System.out.println("mapa 1:" + maps.get(1).getstartx()+hero.getx()+"
 		// "+maps.get(1).getstartx()+hero.gety());
@@ -164,7 +220,9 @@ public class Game { // vars dde qqr objeto game
 		}
 
 		if (heropos instanceof Lever) {
+		
 			maps.get(currentmap).openDoors();
+			setCurrentMessage("The prison door is open! Escape!");
 
 		}
 		if (heropos instanceof Key && currentmap == 1) { // ver isto, so
@@ -173,6 +231,7 @@ public class Game { // vars dde qqr objeto game
 															// !!!!!!!!!!!!!!
 			((Key) maps.get(currentmap).returnLever()).deleteKey();
 			hero.heroHasClubKey();
+			setCurrentMessage("The dungeon door is open! Escape!");
 		}
 		// maps.get(currentmap).checkOgreLever();
 	}
@@ -188,6 +247,10 @@ public class Game { // vars dde qqr objeto game
 		y = hero.gety();
 		trymove(m, x, y);
 
+	}
+	public boolean getisWinLevel1()
+	{
+		return isWinLevel1;
 	}
 	
 	
@@ -213,10 +276,7 @@ public class Game { // vars dde qqr objeto game
 		return false;
 	}
 	
-	public boolean getisWinLevel1()
-	{
-		return isWinLevel1;
-	}
+
 	
 	
 	public void checkSurround(int hx, int hy) { // check surround para hero nao

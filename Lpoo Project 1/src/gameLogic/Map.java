@@ -7,43 +7,29 @@ public class Map {
 
 	private ArrayList<GameObject> staticObject = new ArrayList<GameObject>(); // readysetgo
 
-	private ArrayList<DynamicObject> dynamicObject = new ArrayList<DynamicObject>(); // array
-	// em
-	// esteroides,
-	// pa
-	// adicionar
-	// objetos
-	// usa-se
-	// staticObject//dynamicObject.add
+	private ArrayList<DynamicObject> dynamicObject = new ArrayList<DynamicObject>(); 
 
 	private int theGuardPersonality;
 	
-	private int NumberOfOgres;
 	
-	//private int NumberOfOgres;
+	private int NumberOfOgres;
 
-	private int hx, hy, mapwidth, maplength;
+	private int hx, hy, mapwidth, maplength,nOgres, guardtype;
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
+	public Map(char map[][], String movement[], int currentmap, int nOfOgres, int typeguard) {
+		nOgres = nOfOgres;
+		guardtype = typeguard;
+		readMap(map, movement, currentmap, guardtype);
+	}
 	public Map(char map[][], String movement[], int currentmap) {
 		theGuardPersonality = 0;
 		readMap(map, movement, currentmap);
 	}
 	
-	public Map(char map[][], String movement[], int guardPersonality, int numberOfOgres, int currentmap)
-	{
-		theGuardPersonality = guardPersonality;
-		NumberOfOgres = numberOfOgres;
-		readMap(map, movement, currentmap);
-	}
 	
 	
-	public Map(char map[][], String movement[], int numberOfOgres, char AbsNothing, int currentmap)
-	{
-		NumberOfOgres = numberOfOgres;
-		readMap(map, movement, currentmap);
-	}
 
 	public int getstarty() {
 		return hy;
@@ -128,7 +114,42 @@ public class Map {
 		theString = theString + LINECHAR;
 		return theString;
 	}
+	
+	public String getMapString(Hero hero) {
 
+		String printedmap = "";
+		for (int y = 0; y < mapwidth; y++) {
+			for (int x = 0; x < maplength; x++) {
+				printedmap += getCharacterHere(hero, x, y);
+			}
+			printedmap += LINECHAR;
+		}
+		return printedmap;
+	}
+	public char getCharacterHere(Hero hero, int x, int y) {
+		if (x == hero.getx() && y == hero.gety()) {
+			// System.out.print(hero.getc());
+			return hero.getc(); // atençao lol
+		}
+
+		for (int i = 0; i < staticObject.size(); i++) {
+			if (x == staticObject.get(i).getx() && y == staticObject.get(i).gety()) {
+				// System.out.print(staticObject.get(i).getc());
+				return staticObject.get(i).getc();
+
+			}
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+
+			if (x == dynamicObject.get(i).getx() && y == dynamicObject.get(i).gety()) {
+				// System.out.print(dynamicObject.get(i).getc());
+				return dynamicObject.get(i).getc();
+			}
+		}
+
+		return SPACECHAR;
+
+	}
 	public void createNewObject(char c, int x, int y, String movement[], int currentmap) {
 		int ndeogres = 1 + (int) (Math.random() * 5); // cria numero de 1 a 3
 		switch (c) {
@@ -171,11 +192,78 @@ public class Map {
 
 	}
 
-	public void getRandomPersonalityGuard(int x, int y, String movement[]) {
-		if (theGuardPersonality == 0) {
+
+	private void createNewObject(char c, int x, int y, String movement[], int currentmap, int guardtype) {
+		int ndeogres;
+		if (nOgres == -1) {
+			ndeogres = (1 + (int) (Math.random() * 5));
+		} else
+			ndeogres = nOgres;
+		switch (c) {
+		case 'X':
+			staticObject.add(new Wall(x, y));
+			break;
+		case 'I':
+			staticObject.add(new Door(x, y));
+			break;
+		case 'G':
+			if(guardtype==-1){
+			getRandomPersonalityGuard(x, y, movement);}
+			else{
+				addGuardType(x,y,movement,guardtype);}
+				
+			break;
+		case 'O':
+			System.out.println("nº de ogres:" + ndeogres); // usar ids pa
+															// identificar cada
+															// par, usar ids no
+															// update e no
+															// return?
+			for (int i = 1; i <= ndeogres; i++) {
+
+				dynamicObject.add(new Ogre(x, y, movement, i)); // mudar com
+																// files
+
+				dynamicObject.add(new OgreClub(x, y, movement, i));
+			}
+
+			break;
+		case 'k':
+			staticObject.add(new Key(x, y));
+			break;
+		case 'H':
+			hx = x;
+			hy = y;
+			if (currentmap > 0) {
+				dynamicObject.add(new HeroClub(hx, hy, returnHero(), movement, 0));
+			}
+			break;}
+
+		}
+
+
+	private void addGuardType(int x,int y, String movement[],int guardtype){
+		switch (guardtype) {
+		case 1:
+			System.out.println("GUARD Rookie");
+			dynamicObject.add(new Guard_Rookie(x, y, movement));
+			break;
+		case 2:
+			System.out.println("GUARD DRUNKEN");
+			dynamicObject.add(new Guard_Drunken(x, y, movement));
+			break;
+		case 3:
+			System.out.println("GUARD Suspicious");
+			dynamicObject.add(new Guard_Suspicious(x, y, movement));
+			break;
+			}
+	}
+
+	private void getRandomPersonalityGuard(int x, int y, String movement[]) {
+		
 			theGuardPersonality = 1 + (int) (Math.random() * ((3 - 1) + 1));
 			// System.out.println("personality:" + theGuardPersonality);
-		}
+		
 		// theGuardPersonality =2;
 		// System.out.println("personality:" + theGuardPersonality);
 		switch (theGuardPersonality) {
@@ -213,6 +301,16 @@ public class Map {
 		return null;
 	}
 
+	public void readMap(char map[][], String movement[], int currentmap, int guardtype) {
+		maplength = map[0].length;
+		mapwidth = map.length;
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[y].length; x++) {
+				createNewObject(map[y][x], x, y, movement, currentmap, guardtype);
+
+			}
+		}
+	}
 	public void readMap(char map[][], String movement[], int currentmap) {
 		maplength = map[0].length;
 		mapwidth = map.length;
