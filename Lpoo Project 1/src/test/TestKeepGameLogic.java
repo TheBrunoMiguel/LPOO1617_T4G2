@@ -16,6 +16,8 @@ public class TestKeepGameLogic
 	String theguardmovement[] = {"down","down","left","up","left","up","right","right"};
 
 	
+	
+	//TESTES PARA O OGRE:
 	@Test
 	public void testHeroIsDefeatedByOgre()
 	{
