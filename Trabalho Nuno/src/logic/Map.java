@@ -17,13 +17,30 @@ public class Map {
 	// staticObject//dynamicObject.add
 
 	private int theGuardPersonality;
+	
+	//private int NumberOfOgres;
 
 	private int hx, hy, mapwidth, maplength;
 
 	private static char SPACECHAR = ' ', LINECHAR = '\n';
 
 	public Map(char map[][], String movement[], int currentmap) {
+		theGuardPersonality = 0;
 		readMap(map, movement, currentmap);
+	}
+	
+	public Map(char map[][], String movement[], int guardPersonality, int numberOfOgres)
+	{
+		theGuardPersonality = guardPersonality;
+		NumberOfOgres = numberOfOgres;
+		readMap(map, movement);
+	}
+	
+	
+	public Map(char map[][], String movement[], int numberOfOgres)
+	{
+		NumberOfOgres = numberOfOgres;
+		readMap(map, movement);
 	}
 
 	public int getstarty() {
@@ -57,6 +74,34 @@ public class Map {
 		System.out.print(SPACECHAR);
 
 	}
+	
+	
+	public String printObjectHere2(Hero hero, int x, int y)
+	{
+		String theString = "";
+		if (x == hero.getx() && y == hero.gety()) {
+			
+			theString = String.valueOf(hero.getc());
+			return theString;
+		}
+
+		for (int i = 0; i < staticObject.size(); i++) {
+			if (x == staticObject.get(i).getx() && y == staticObject.get(i).gety()) {
+				theString = String.valueOf(staticObject.get(i).getc());
+				return theString;
+
+			}
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+
+			if (x == dynamicObject.get(i).getx() && y == dynamicObject.get(i).gety()) {
+				theString = String.valueOf(dynamicObject.get(i).getc());
+				return theString;
+			}
+		}
+		theString = theString + SPACECHAR;
+		return theString;
+	}
 
 	public void printMap(Hero hero) {
 		
@@ -66,6 +111,21 @@ public class Map {
 			}
 			System.out.print(LINECHAR);
 		}
+	}
+	
+	public String printMap2(Hero hero)
+	{
+		String theString = "";
+		for(int y = 0; y < mapwidth; y++)
+		{
+			for(int x = 0; x < maplength; x++)
+			{
+				theString = theString + printObjectHere2(hero, x, y);
+			}	
+			theString = theString + LINECHAR;
+		}
+		theString = theString + LINECHAR;
+		return theString;
 	}
 	
 	public char getCharacterHere(Hero hero, int x, int y) {
@@ -361,4 +421,29 @@ public class Map {
 		updateOgre(returnHeroClub());
 		updateLeverOgre();
 	}
+	
+	/*
+	public void update() {
+		int ox=0,oy=0;
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			dynamicObject.get(i).update();
+			
+			if (dynamicObject.get(i) instanceof Ogre) {
+				dynamicObject.get(i).update(staticObject);
+				ox=dynamicObject.get(i).getx();
+				oy=dynamicObject.get(i).gety();
+				
+			}
+
+
+		
+		}
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			if (dynamicObject.get(i) instanceof Club) {
+				dynamicObject.get(i).update(staticObject, ox,oy);
+			}
+		}
+		updateLeverOgre();
+	}
+	*/
 }
