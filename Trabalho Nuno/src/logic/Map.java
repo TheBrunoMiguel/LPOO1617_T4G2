@@ -68,7 +68,7 @@ public class Map {
 	}
 
 	public void createNewObject(char c, int x, int y, String movement[], int currentmap) {
-		int ndeogres = 1 + (int) (Math.random() * 5); // cria numero de 1 a 3
+		int ndeogres = 1 + (int) (Math.random() * 1); // cria numero de 1 a 3
 		switch (c) {
 		case 'X':
 			staticObject.add(new Wall(x, y));
@@ -249,12 +249,36 @@ public class Map {
 
 	}
 
+	public void checkSurroundOgre(HeroClub heroclub, Ogre ogre) {
+		int ox = ogre.getx(), oy = ogre.gety();
+		int hx = heroclub.getx(), hy = heroclub.gety();
+		System.out.println("ogrex: "+ox+" ogrey: "+oy);
+		System.out.println("herox: "+hx+" heroy: "+hy);
+		if (hx == ox && (oy == hy + 1)) { // heroclub a baixo de ogre
+			ogre.getHit();
+		}
+		if ((hx == ox) && (oy == hy - 1)) { // heroclub acima de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx+1)) { //heroclub a direita de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx-1)) { //heroclub a esqerda de ogre
+			ogre.getHit();
+		}
+		if ((hy==oy)&&(ox==hx)) { //heroclub em cima do ogre
+			ogre.getHit();
+		}
+
+	}
+
 	public void updateOgre(HeroClub heroclub) {
 		int ox = 0, oy = 0;
 		int ogreID = 0;
 		for (int i = 0; i < dynamicObject.size(); i++) {
 
 			if (dynamicObject.get(i) instanceof Ogre) {
+				
 				ogreID = dynamicObject.get(i).getID();
 				dynamicObject.get(i).update(staticObject);
 
@@ -262,6 +286,7 @@ public class Map {
 				oy = dynamicObject.get(i).gety();
 
 				updateOgreClub(ogreID, ox, oy);
+				checkSurroundOgre(heroclub, (Ogre) dynamicObject.get(i));
 
 			}
 
@@ -273,8 +298,8 @@ public class Map {
 		if (currentmap > 0) {
 			int hx = hero.getx();
 			int hy = hero.gety();
-			System.out.println(hx);
-			System.out.println(hy);
+//			System.out.println(hx);
+//			System.out.println(hy);
 			for (int i = 0; i < dynamicObject.size(); i++) {
 
 				if (dynamicObject.get(i) instanceof HeroClub) {
@@ -286,7 +311,7 @@ public class Map {
 		}
 	}
 
-	public void updateDynamicObjects() {
+	public void updateDynamicObjects() { //updata todos menos heroclub, ogre e lever(esta n sei se é dynamic but wtv)
 		for (int i = 0; i < dynamicObject.size(); i++) {
 			dynamicObject.get(i).update();
 		}
