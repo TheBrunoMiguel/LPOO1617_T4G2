@@ -39,13 +39,20 @@ public class Guard_Rookie extends Guard
 
 	
 	
+	public int getCurrentMovement2()
+	{
+		return currentMovement;
+	}
+
+	
+	
 	public void update() {
 		
 		makeMove();
 		
 	}
 	
-	private void makeMove() {
+	public void makeMove() {
 		String move = getCurrentMovement();
 		switch(move){
 		case "up":

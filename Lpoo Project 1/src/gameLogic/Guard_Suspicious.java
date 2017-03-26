@@ -77,7 +77,30 @@ public class Guard_Suspicious extends Guard
 		
 	}
 	
-	private void makeMove() {
+	
+
+	public int getCurrentMovement2()
+	{
+		return currentMovement;
+	}
+
+
+
+
+
+	public int getDirectionChangeCounter()
+	{
+		return DirectionChangeCounter;
+	}
+
+	public int getDirection()
+	{
+		return theDirection;
+	}
+
+
+	
+	public void makeMove() {
 		String move = getCurrentMovement();
 		if(theDirection == 1)
 		{
