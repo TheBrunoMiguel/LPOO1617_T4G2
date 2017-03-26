@@ -36,13 +36,14 @@ public class Ogre extends DynamicObject {
 	public void getHit() {
 		this.c = OGRECHAR_HIT;
 		setStunZero();
+		System.out.println("You hit an ogre!");
 		}
 	public void notHit(){
 		this.c=OGRECHAR;
 	}
 	public void setStunZero()
 	{
-		stunLevel = 1;
+		stunLevel = 0;
 	}
 	public void incrementStun(){
 		stunLevel=stunLevel+1;

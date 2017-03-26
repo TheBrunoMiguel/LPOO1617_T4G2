@@ -68,7 +68,7 @@ public class Map {
 	}
 
 	public void createNewObject(char c, int x, int y, String movement[], int currentmap) {
-		int ndeogres = 1 + (int) (Math.random() * 1); // cria numero de 1 a 3
+		int ndeogres = 1 + (int) (Math.random() * 5); // cria numero de 1 a 3
 		switch (c) {
 		case 'X':
 			staticObject.add(new Wall(x, y));
@@ -252,8 +252,8 @@ public class Map {
 	public void checkSurroundOgre(HeroClub heroclub, Ogre ogre) {
 		int ox = ogre.getx(), oy = ogre.gety();
 		int hx = heroclub.getx(), hy = heroclub.gety();
-		System.out.println("ogrex: "+ox+" ogrey: "+oy);
-		System.out.println("herox: "+hx+" heroy: "+hy);
+//		System.out.println("ogrex: "+ox+" ogrey: "+oy);
+//		System.out.println("herox: "+hx+" heroy: "+hy);
 		if (hx == ox && (oy == hy + 1)) { // heroclub a baixo de ogre
 			ogre.getHit();
 		}
