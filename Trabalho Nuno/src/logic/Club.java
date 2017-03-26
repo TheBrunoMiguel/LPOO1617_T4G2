@@ -13,7 +13,7 @@ public class Club extends DynamicObject { // classe independente ou static
 
 	// private Ogre ogreTmp;
 
-	public Club(int x, int y, Ogre ogre, String movement[],int clubID) {
+	public Club(int x, int y, String movement[],int clubID) {
 		super(x, y, CLUBCHAR);
 		movementLength = movement.length;
 		readmovement(movement);
@@ -33,7 +33,7 @@ public class Club extends DynamicObject { // classe independente ou static
 		this.c = CLUBCHAR;
 	}
 
-	private void readmovement(String[] movement) {
+	public void readmovement(String[] movement) {
 
 		for (int i = 0; i < movement.length; i++) {
 

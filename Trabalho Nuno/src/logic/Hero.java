@@ -20,7 +20,6 @@ public class Hero extends DynamicObject {
 	}
 	public void heroHasClubKey(){
 		this.c=HEROCLUBKEY;
-		
 	}
 
 	public boolean hasWon() {

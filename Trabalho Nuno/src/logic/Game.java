@@ -18,8 +18,8 @@ public class Game { // vars dde qqr objeto game
 		// maps.add(new Map(map0));
 		// currentmapname="map"+currentmap;
 		// System.out.println(currentmapname);
-		maps.add(new Map(map0, lvl0guardmovement));
-		maps.add(new Map(map1, lvl1guardmovement));
+		maps.add(new Map(map0, lvl0guardmovement,0));
+		maps.add(new Map(map1, lvl1guardmovement,1));
 
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
@@ -38,7 +38,7 @@ public class Game { // vars dde qqr objeto game
 
 	private void updatemap() {
 
-		maps.get(currentmap).update();
+		maps.get(currentmap).update(hero,currentmap);
 	}
 
 	public void checkGameStatus() {
@@ -67,6 +67,8 @@ public class Game { // vars dde qqr objeto game
 		currentmap++;
 		printNextLevelMessage();
 		hero.reset(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		hero.heroHasClub();
+		
 
 		// System.out.println("mapa 1:" + maps.get(1).getstartx()+hero.getx()+"
 		// "+maps.get(1).getstartx()+hero.gety());
@@ -100,12 +102,14 @@ public class Game { // vars dde qqr objeto game
 															// com currentmap==1
 															// !!!!!!!!!!!!!!
 			((Key) maps.get(currentmap).returnLever()).deleteKey();
+			hero.heroHasClubKey();
 		}
 		// maps.get(currentmap).checkOgreLever();
 	}
 
 	public void updatehero(char c) {
 		movehero(c);
+		
 	}
 
 	public void movehero(char m) {
@@ -125,7 +129,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckright instanceof Guard || positiontocheckright instanceof Ogre
-				|| positiontocheckright instanceof Club) {
+				|| positiontocheckright instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -135,7 +139,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckleft instanceof Guard || positiontocheckleft instanceof Ogre
-				|| positiontocheckleft instanceof Club) {
+				|| positiontocheckleft instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -145,7 +149,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckdown instanceof Guard || positiontocheckdown instanceof Ogre
-				|| positiontocheckdown instanceof Club) {
+				|| positiontocheckdown instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -155,13 +159,13 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckup instanceof Guard || positiontocheckup instanceof Ogre
-				|| positiontocheckup instanceof Club) {
+				|| positiontocheckup instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
 		GameObject positiontochecktop = maps.get(currentmap).readCoord(hx, hy);
 		if (positiontochecktop instanceof Guard || positiontochecktop instanceof Ogre
-				|| positiontochecktop instanceof Club) {
+				|| positiontochecktop instanceof OgreClub) {
 			hero.getHit();
 		}
 
