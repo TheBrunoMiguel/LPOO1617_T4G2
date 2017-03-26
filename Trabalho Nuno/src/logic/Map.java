@@ -68,7 +68,7 @@ public class Map {
 	}
 
 	public void createNewObject(char c, int x, int y, String movement[]) {
-
+		int ndeogres=1 + (int) (Math.random() *3); // cria numero de 1 a 3
 		switch (c) {
 		case 'X':
 			staticObject.add(new Wall(x, y));
@@ -80,8 +80,15 @@ public class Map {
 			getRandomPersonalityGuard(x, y, movement);
 			break;
 		case 'O':
-			dynamicObject.add(new Ogre(x, y, movement)); //mudar com files
-			dynamicObject.add(new Club(x,y, returnOgre(), movement));
+			System.out.println("nº de ogres:" + ndeogres); //usar ids pa identificar cada par, usar ids no update e no return?
+			for(int i=1;i<=ndeogres;i++){
+				
+			dynamicObject.add(new Ogre(x, y, movement,i)); //mudar com files
+	
+			dynamicObject.add(new Club(x,y, returnOgre(), movement,i));
+			}
+			
+
 			break;
 		case 'k':
 			staticObject.add(new Key(x, y));
@@ -187,7 +194,7 @@ public class Map {
 
 
  
-	private void updateLeverOgre() { //FAZER UM PARA CLUB E FAZER O RETURNCLUB
+	private void updateLeverOgre() { //FAZER UM PARA CLUB E FAZER O RETURNCLUB // e preciso alterar isto?
 		Ogre tmpOgre = returnOgre();
 		Lever tmpLever = returnLever();
 		Club tmpClub = returnClub();
@@ -217,27 +224,43 @@ public class Map {
 		
 	}
 
+	public void updateClub(int ogreID,int ox,int oy){
+		for (int i = 0; i < dynamicObject.size(); i++) {
+			if (dynamicObject.get(i) instanceof Club) {
+				if(dynamicObject.get(i).getID()==ogreID){
+				dynamicObject.get(i).update(staticObject, ox,oy);
+				}
+				
+			}
+		}
+		
+	}
 	
-	public void update() {
+	public void updateOgre(){
 		int ox=0,oy=0;
+		int ogreID=0;
 		for (int i = 0; i < dynamicObject.size(); i++) {
 			dynamicObject.get(i).update();
 			
 			if (dynamicObject.get(i) instanceof Ogre) {
+				ogreID=dynamicObject.get(i).getID();
 				dynamicObject.get(i).update(staticObject);
+				
 				ox=dynamicObject.get(i).getx();
 				oy=dynamicObject.get(i).gety();
+				
+				updateClub(ogreID,ox,oy);
 				
 			}
 
 
 		
 		}
-		for (int i = 0; i < dynamicObject.size(); i++) {
-			if (dynamicObject.get(i) instanceof Club) {
-				dynamicObject.get(i).update(staticObject, ox,oy);
-			}
-		}
+		
+	}
+	public void update() {
+
+		updateOgre();
 		updateLeverOgre();
 	}
 }

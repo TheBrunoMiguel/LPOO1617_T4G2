@@ -16,14 +16,20 @@ public class Ogre extends DynamicObject {
 
 	private int movementLength;
 	
+	private int ogreID;
 
-	public Ogre(int x, int y, String movement[]) {
+	public Ogre(int x, int y, String movement[],int ogreID) {
 		super(x, y, OGRECHAR);
 		// currentMovement = 0;
 		movementLength = movement.length;
 		readmovement(movement);
+		this.ogreID=ogreID;
 		
 		//club = new Club(xClub,yClub,'*');  //criar classe club, geri-la no map
+	}
+	
+	public int getID(){
+		return ogreID;
 	}
 
 	public void ogreStepsLever() {

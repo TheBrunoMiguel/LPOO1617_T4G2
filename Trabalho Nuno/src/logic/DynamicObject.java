@@ -38,6 +38,9 @@ public class DynamicObject extends GameObject
 	public void update()
 	{
 	}
+	public int getID(){
+		return 0;
+	}
 	public void update(ArrayList<GameObject> staticObject)
 	{
 	}
