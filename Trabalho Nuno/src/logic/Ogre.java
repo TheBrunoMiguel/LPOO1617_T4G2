@@ -8,6 +8,7 @@ public class Ogre extends DynamicObject {
 
 	private static char OGRECHAR = 'O';
 	private static char OGRECHAR_ON_LEVER = '$';
+	private static char OGRECHAR_HIT='8';
 	
 
 	private ArrayList<String> ogreMovement = new ArrayList<String>();
@@ -32,6 +33,9 @@ public class Ogre extends DynamicObject {
 		return ogreID;
 	}
 
+	public void ogreHit(){
+		this.c=OGRECHAR_HIT;
+	}
 	public void ogreStepsLever() {
 		this.c=OGRECHAR_ON_LEVER;
 	}

@@ -107,7 +107,7 @@ public class Map {
 		if(theGuardPersonality == 0)
 		{
 			theGuardPersonality = 1 + (int)(Math.random() * ((3 - 1) + 1));
-			System.out.println("personality:" + theGuardPersonality);
+//			System.out.println("personality:" + theGuardPersonality);
 		}
 //		theGuardPersonality =2;
 //		System.out.println("personality:" + theGuardPersonality);
