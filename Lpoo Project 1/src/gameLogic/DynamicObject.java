@@ -2,7 +2,6 @@ package gameLogic;
 
 import java.util.ArrayList;
 
-
 public class DynamicObject extends GameObject 
 {
 	private boolean alive;  
@@ -38,7 +37,9 @@ public class DynamicObject extends GameObject
 	}
 	public void update()
 	{
-			
+	}
+	public int getID(){
+		return 0;
 	}
 	public void update(ArrayList<GameObject> staticObject)
 	{
@@ -48,4 +49,7 @@ public class DynamicObject extends GameObject
 	}
 	public void reset(int x, int y){	
 	}
+	
+	
+	
 }

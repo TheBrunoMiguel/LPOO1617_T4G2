@@ -1,27 +1,27 @@
 package gameLogic;
 
-import userInterface.ReadInput; 
 import java.util.ArrayList;
 
+//import gameLogic.Guard_Drunken;
 
 public class Game { // vars dde qqr objeto game
 
 	private Hero hero; // Hero= classe, hero= objeto de Hero(tipo int i lul)
 
-	private ArrayList<Map> maps = new ArrayList<Map>(); // magic
+	private ArrayList<Map> maps = new ArrayList<Map>();
 
 	private boolean running;
 
-	private int currentmap;
-
+	private int currentmap = 0;
+	
 	private boolean isWinLevel1;
 
-	public Game() // construtor
-	{
-		currentmap = 0;
-		maps.add(new Map(map0, lvl0guardmovement));
-		maps.add(new Map(map1, lvl1guardmovement));	
-
+	public Game() {
+		// maps.add(new Map(map0));
+		// currentmapname="map"+currentmap;
+		// System.out.println(currentmapname);
+		maps.add(new Map(map0, lvl0guardmovement,0));
+		maps.add(new Map(map1, lvl1guardmovement,1));
 
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
@@ -29,11 +29,11 @@ public class Game { // vars dde qqr objeto game
 	}
 
 	
-	public Game(int theGuardPersonality, int numberOfOgres, Hero theHero)
+	public Game(int theGuardPersonality, int numberOfOgres, Hero theHero,  int thecurrentmap)
 	{
 		currentmap = 0;
-		maps.add(new Map(map0, lvl0guardmovement, theGuardPersonality, numberOfOgres));
-		maps.add(new Map(map1, lvl1guardmovement, theGuardPersonality, numberOfOgres));
+		maps.add(new Map(map0, lvl0guardmovement, theGuardPersonality, numberOfOgres, thecurrentmap));
+		maps.add(new Map(map1, lvl1guardmovement, theGuardPersonality, numberOfOgres, thecurrentmap));
 		
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
@@ -44,7 +44,7 @@ public class Game { // vars dde qqr objeto game
 	public Game(char[][] theMap, String[] theGuardMovement)
 	{
 		currentmap = 0;
-		maps.add(new Map(theMap, theGuardMovement));
+		maps.add(new Map(theMap, theGuardMovement, currentmap));
 		
 		running = true;
 		hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());		
@@ -54,9 +54,10 @@ public class Game { // vars dde qqr objeto game
 	
 	public Game(char[][] theMap, String[] theOgreMovement, int numberOfOgres, Hero theHero)
 	{
+			char nothing = 'n';
 			currentmap = 0;
-			maps.add(new Map(map0, lvl0guardmovement));
-			maps.add(new Map(theMap, theOgreMovement, numberOfOgres));
+			maps.add(new Map(map0, lvl0guardmovement, currentmap));
+			maps.add(new Map(theMap, theOgreMovement, numberOfOgres, nothing, currentmap));
 			currentmap++;
 			
 			running = true;
@@ -81,12 +82,12 @@ public class Game { // vars dde qqr objeto game
 		return hero.getx();
 	}
 	
-	
+	/*
 	public char getinput() {
 		char c = ReadInput.read();
 		return c;
 	}
-
+*/
 	
 	public boolean getRunning()
 	{
@@ -94,29 +95,20 @@ public class Game { // vars dde qqr objeto game
 	}
 	
 	
-	public void update(char c) { 
+	
+	public void update(char c) {
 
 		updatehero(c);
-		
+
 		updatemap();
 		checkGameStatus();
 		maps.get(currentmap).printMap(hero);
 
 	}
-	
-/*	
-	public void update() { //se tivesse tempo usava-se args
-		updatehero();
-		updatemap(); 
-		checkGameStatus();
-		maps.get(currentmap).printMap(hero);
-	}
-*/
-
 
 	private void updatemap() {
 
-		maps.get(currentmap).update();
+		maps.get(currentmap).update(hero,currentmap);
 	}
 
 	public void checkGameStatus() {
@@ -128,54 +120,66 @@ public class Game { // vars dde qqr objeto game
 
 	private void checkDoor() {
 		GameObject positiontocheckdoor = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
-		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())){	
-			if(currentmap==1){ 
+		if ((positiontocheckdoor instanceof Door) && (((Door) positiontocheckdoor).isOpen())) {
+			if (currentmap == maps.size() - 1) {
 				hero.win();
-				running=false;
-//				printEndGameMessage();
-			}													//fix1trocar por currentmap++
-			else nextlevel();
+				running = false;
+				printEndGameMessage();
+			} else
+				nextlevel();
 
-		}																			//fix2 tips. maps.size== n de mapas. index 0 = mapa nº1
-	}																				//if currentmap==maps.size() entao running =false
+		}
+	}
 
 	private void nextlevel() {
-		currentmap++; //pode ser 0 (map0), 1(map0 etc)
-
+		// System.out.println("mapa 0: " + maps.get(0).getstartx()+hero.getx()+"
+		// "+maps.get(0).getstartx()+hero.gety());
+		currentmap++;
 		printNextLevelMessage();
-		hero.reset(maps.get(currentmap).getstartx() , maps.get(currentmap).getstarty());
+		hero.reset(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+		hero.heroHasClub();
+		
 
+		// System.out.println("mapa 1:" + maps.get(1).getstartx()+hero.getx()+"
+		// "+maps.get(1).getstartx()+hero.gety());
+
+		// System.out.println("mapa 1:" + maps.get(1).getstartx()+hero.getx()+"
+		// "+maps.get(1).getstartx()+hero.gety());
 	}
 
 	public void checkHeroAlive() {
+
 		if (hero.isAlive() == false) {
 			running = false;
 		}
 	}
 
-
 	public void checkLever() {
-		System.out.println(hero.getx());
-//		System.out.println(hero.gety());
+		// System.out.println(hero.getx());
+		// System.out.println(hero.gety());
 		GameObject heropos = maps.get(currentmap).readCoord(hero.getx(), hero.gety());
-		
-		if(heropos == null)
-		{
+
+		if (heropos == null) {
 			return;
 		}
-		
-		if (heropos instanceof Lever){
+
+		if (heropos instanceof Lever) {
 			maps.get(currentmap).openDoors();
-			
+
 		}
-		if (heropos instanceof Key&& currentmap==1){  //ver isto, so funciona direito com currentmap==1 !!!!!!!!!!!!!!
-			((Key)maps.get(currentmap).returnLever()).deleteKey();
+		if (heropos instanceof Key && currentmap == 1) { // ver isto, so
+															// funciona direito
+															// com currentmap==1
+															// !!!!!!!!!!!!!!
+			((Key) maps.get(currentmap).returnLever()).deleteKey();
+			hero.heroHasClubKey();
 		}
-//		maps.get(currentmap).checkOgreLever();
+		// maps.get(currentmap).checkOgreLever();
 	}
 
-	public void updatehero(char c) {		
+	public void updatehero(char c) {
 		movehero(c);
+		
 	}
 
 	public void movehero(char m) {
@@ -208,16 +212,15 @@ public class Game { // vars dde qqr objeto game
 		}
 		return false;
 	}
-
-
+	
 	public boolean getisWinLevel1()
 	{
 		return isWinLevel1;
 	}
-
+	
 	
 	public void checkSurround(int hx, int hy) { // check surround para hero nao
-		// morrer
+												// morrer
 		/* ******************************** */
 		GameObject positiontocheckright = maps.get(currentmap).readCoord(hx + 1, hy);
 		if (positiontocheckright instanceof Guard_Drunken) {
@@ -225,7 +228,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckright instanceof Guard || positiontocheckright instanceof Ogre
-				|| positiontocheckright instanceof Club) {
+				|| positiontocheckright instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -235,7 +238,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckleft instanceof Guard || positiontocheckleft instanceof Ogre
-				|| positiontocheckleft instanceof Club) {
+				|| positiontocheckleft instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -245,7 +248,7 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckdown instanceof Guard || positiontocheckdown instanceof Ogre
-				|| positiontocheckdown instanceof Club) {
+				|| positiontocheckdown instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
@@ -255,22 +258,22 @@ public class Game { // vars dde qqr objeto game
 				hero.getHit();
 			}
 		} else if (positiontocheckup instanceof Guard || positiontocheckup instanceof Ogre
-				|| positiontocheckup instanceof Club) {
+				|| positiontocheckup instanceof OgreClub) {
 			hero.getHit();
 		}
 		/* ******************************** */
 		GameObject positiontochecktop = maps.get(currentmap).readCoord(hx, hy);
 		if (positiontochecktop instanceof Guard || positiontochecktop instanceof Ogre
-				|| positiontochecktop instanceof Club) {
+				|| positiontochecktop instanceof OgreClub) {
 			hero.getHit();
 		}
 
 	}
 
-	
 	public void trymoveLeft(int x, int y) {
 		GameObject positiontomove = maps.get(currentmap).readCoord(x - 1, y);
-		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
+		if ((positiontomove instanceof Wall)
+				|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
 			return;
 		hero.moveLeft();
 
@@ -278,7 +281,8 @@ public class Game { // vars dde qqr objeto game
 
 	public void trymoveRight(int x, int y) {
 		GameObject positiontomove = maps.get(currentmap).readCoord(x + 1, y);
-		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
+		if ((positiontomove instanceof Wall)
+				|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
 			return;
 		hero.moveRight();
 
@@ -286,7 +290,8 @@ public class Game { // vars dde qqr objeto game
 
 	public void trymoveUp(int x, int y) {
 		GameObject positiontomove = maps.get(currentmap).readCoord(x, y - 1);
-		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
+		if ((positiontomove instanceof Wall)
+				|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
 			return;
 		hero.moveUp();
 
@@ -294,7 +299,8 @@ public class Game { // vars dde qqr objeto game
 
 	public void trymoveDown(int x, int y) {
 		GameObject positiontomove = maps.get(currentmap).readCoord(x, y + 1);
-		if ((positiontomove instanceof Wall)|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
+		if ((positiontomove instanceof Wall)
+				|| ((positiontomove instanceof Door) && !(((Door) positiontomove).isOpen())))
 			return;
 		hero.moveDown();
 
@@ -336,73 +342,57 @@ public class Game { // vars dde qqr objeto game
 		System.out.println("Congratulations!");
 		System.out.println("You beat this level!");
 
-
 	}
 
 	public void printEndGameMessage() {
-		if (hero.isAlive() == false){
-			isWinLevel1 = false;
+		if (hero.isAlive() == false) {
 			System.out.println("You died!");
-			System.out.println("Game Over!");}
-		else if (hero.hasWon() == true){
-			isWinLevel1 = true;
+			System.out.println("Game Over!");
+		} else if (hero.hasWon() == true) {
 			System.out.println("You won!");
 			System.out.println("Game Over!");
 		}
 
 	}
-	
-	
-public Object  checkObjectAbove(){
-		
+
+	public Object checkObjectAbove() {
+
 		return null;
 	}
-	
-/*
-	public void play() {
-		maps.get(currentmap).printMap(hero);
-		while (running) {
-			update();
-		}
-		printEndGameMessage();
-	}
-	
-	*/
 
-	private static String lvl0guardmovement[]={"left","down","down","down","down","left","left","left","left","left",
-			"left","down","right","right","right","right","right","right","right","up","up","up","up","up",};
-//	private static String lvl1guardmovement[]={"up","down","right","left"};
-	private static String lvl1guardmovement[]={"up","right","left","down"};
+	// public void play() {
+	//
+	//
+	//
+	// }
+
+	private static String lvl0guardmovement[] = { "left", "down", "down", "down", "down", "left", "left", "left",
+			"left", "left", "left", "down", "right", "right", "right", "right", "right", "right", "right", "up", "up",
+			"up", "up", "up", };
+	// private static String lvl1guardmovement[]={"up","down","right","left"};
+	private static String lvl1guardmovement[] = { "up", "right", "left", "down" };
 
 	private static char map0[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'X', 'H', '0', '0', 'I', '0', 'X', '0', 'G', 'X' }, 
-			{ 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
-			{ 'X', '0', 'I', '0', 'I', '0', 'X', '0', '0', 'X' },
-			{ 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
-			{ 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, 
-			{ 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', 'X', 'X', '0', 'X', 'X', 'X', 'X', '0', 'X' }, 
-			{ 'X', '0', 'I', '0', 'I', '0', 'X', 'k', '0', 'X' },
+			{ 'X', 'H', '0', '0', 'I', '0', 'X', '0', 'G', 'X' }, { 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
+			{ 'X', '0', 'I', '0', 'I', '0', 'X', '0', '0', 'X' }, { 'X', 'X', 'X', '0', 'X', 'X', 'X', '0', '0', 'X' },
+			{ 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'I', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'X', 'X', 'X', '0', 'X', 'X', 'X', 'X', '0', 'X' }, { 'X', '0', 'I', '0', 'I', '0', 'X', 'k', '0', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 
 	public static char map1[][] = { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'I', '0', '0', '0', 'O', '0', '0', '0', 'k', 'X' }, 
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, 
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
-			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, 
-			{ 'X', 'H', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'I', '0', '0', '0', 'O', '0', '0', '0', 'k', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' },
+			{ 'X', '0', '0', '0', '0', '0', '0', '0', '0', 'X' }, { 'X', 'H', '0', '0', '0', '0', '0', '0', '0', 'X' },
 			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 
 	public void printmap() {
 		maps.get(currentmap).printMap(hero);
-		
+
 	}
 
 	public boolean isRunning() {
-		
+
 		return running;
 	}
 

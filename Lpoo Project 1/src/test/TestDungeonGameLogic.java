@@ -1,11 +1,13 @@
 package test;
 
+import gameLogic.Club;
 import gameLogic.Hero;
 import gameLogic.DynamicObject;
 import gameLogic.Guard_Drunken;
 import gameLogic.Guard_Rookie;
 import gameLogic.Guard_Suspicious;
 import gameLogic.Map;
+import gameLogic.Ogre;
 
 import static org.junit.Assert.*;
 
@@ -46,6 +48,27 @@ public class TestDungeonGameLogic
 			{'X', ' ', ' ', ' ', ' ', ' ', 'X'}};
 	
 	String theguardmovement3[] = {"up", "left", "down", "right", "up", "left", "down", "right"};
+	
+	
+	char [][] map4 = {{'X', 'X', 'X', 'X', 'X', 'X', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ' ,' ', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ', ' ', 'X'}, 
+			{'X', 'O', ' ', 'O', ' ', ' ', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ', ' ', 'X'}, 
+			{'X', 'H', ' ', 'O', ' ', ' ', 'X'},
+			{'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+	
+	String theOgreMovement[]={"down","down","down","down"};
+	
+	char [][] map5 = {{'X', 'X', 'X', 'X', 'X', 'X', 'X'}, 
+			{'I', ' ', ' ', ' ', ' ' ,'k', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ', ' ', 'X'}, 
+			{'X', ' ', ' ', 'H', ' ', ' ', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ', ' ', 'X'}, 
+			{'X', ' ', ' ', ' ', ' ', ' ', 'X'},
+			{'X', 'X', 'X', 'X', 'X', 'X', 'X'}};
+	
+	String theOgreMovement2[]={"up","right","left","down"};
 	
 	
 	@Test
@@ -451,7 +474,96 @@ public class TestDungeonGameLogic
 			theSuspicious.update();
 			assertEquals(theCurrentMovement + 1, theSuspicious.getCurrentMovement2());
 		}
-
+	}
+	
+	
+	@Test
+	public void testDoesOgreDeafeatHero()
+	{
+		Hero theHero = new Hero(2, 5);
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement, 1);
 		
+		Game game = new Game(map4, theOgreMovement, 1, theHero);
+		
+		theHero.moveRight();
+		theOgre.update();
+		
+		game.checkSurround(theHero.getx(), theHero.gety());
+		game.checkHeroAlive();
+		assertEquals(false, game.getRunning());
+	}
+	
+	
+	@Test
+	public void testOgre()
+	{
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement2, 1);
+		
+		theOgre.ogreStepsLever();
+		assertEquals('$', theOgre.getc());
+		
+		theOgre.ogreDoesntStepLever();
+		assertEquals('O', theOgre.getc());
+		
+		
+		int DownCounter = 0;
+		int UpCounter = 0;
+		int RightCounter = 0;
+		int LeftCounter = 0;
+		for(int i = 0; i < 1000; i++)
+		{
+			String theCurrentMovement = theOgre.getCurrentMovement();
+			if(theCurrentMovement == "left")
+				LeftCounter++;
+			else if(theCurrentMovement == "right")
+				RightCounter++;
+			else if(theCurrentMovement == "up")
+				UpCounter++;
+			else if(theCurrentMovement == "down")
+				DownCounter++;
+		}
+		
+		boolean isDown = false;
+		boolean isUp = false;
+		boolean isRight = false;
+		boolean isLeft = false;
+		
+		if(DownCounter < 300 && DownCounter > 200)
+		{
+			isDown = true;
+		}
+		if(UpCounter < 300 && UpCounter > 200)
+		{
+			isUp = true;
+		}
+		if(RightCounter < 300 && RightCounter > 200)
+		{
+			isRight = true;
+		}
+		if(LeftCounter < 300 && LeftCounter > 200)
+		{
+			isLeft = true;
+		}
+		
+		
+		assertTrue(isDown);
+		assertTrue(isUp);
+		assertTrue(isRight);
+		assertTrue(isLeft);
+	}
+	
+	
+	@Test
+	public void testClub()
+	{
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement2, 1);
+		
+		Club theClub = new Club(5, 5, theOgreMovement2, 1);
+		
+		theClub.clubStepsLever();
+		assertEquals('$', theClub.getc());
+		
+		theClub.clubDoesntStepLever();
+		assertEquals('*', theClub.getc());
 	}
 }
