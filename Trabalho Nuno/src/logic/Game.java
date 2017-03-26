@@ -12,7 +12,7 @@ public class Game { // vars dde qqr objeto game
 
 	private boolean running;
 
-	private int currentmap = 1;
+	private int currentmap = 0;
 
 	public Game() {
 		// maps.add(new Map(map0));
