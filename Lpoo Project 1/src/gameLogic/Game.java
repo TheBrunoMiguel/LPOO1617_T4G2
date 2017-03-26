@@ -51,6 +51,21 @@ public class Game { // vars dde qqr objeto game
 	}
 	
 	
+	
+	public Game(char[][] theMap, String[] theOgreMovement, int numberOfOgres, Hero theHero)
+	{
+			currentmap = 0;
+			maps.add(new Map(map0, lvl0guardmovement));
+			maps.add(new Map(theMap, theOgreMovement, numberOfOgres));
+			currentmap++;
+			
+			running = true;
+			hero = new Hero(maps.get(currentmap).getstartx(), maps.get(currentmap).getstarty());
+			hero.reset(maps.get(currentmap).getstartx() , maps.get(currentmap).getstarty());
+			theHero = hero;
+	}
+	
+	
 	public Map getfirstMap()
 	{
 		return maps.get(0);
