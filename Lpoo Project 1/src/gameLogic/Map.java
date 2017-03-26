@@ -41,6 +41,14 @@ public class Map {
 	}
 	
 	
+	public Map(char map[][], String movement[], int numberOfOgres)
+	{
+		NumberOfOgres = numberOfOgres;
+		readMap(map, movement);
+	}
+	
+	
+	
 	public int getstarty() {
 		return hy;
 	}

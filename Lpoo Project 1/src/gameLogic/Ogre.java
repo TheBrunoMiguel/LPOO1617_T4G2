@@ -25,7 +25,8 @@ public class Ogre extends DynamicObject {
 		
 		//club = new Club(xClub,yClub,'*');  //criar classe club, geri-la no map
 	}
-
+	
+	
 	public void ogreStepsLever() {
 		this.c=OGRECHAR_ON_LEVER;
 	}
