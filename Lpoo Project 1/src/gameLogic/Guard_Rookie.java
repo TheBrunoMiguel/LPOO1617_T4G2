@@ -36,6 +36,8 @@ public class Guard_Rookie extends Guard
 		return guardMovement.get(currentMovement);
 
 	}
+
+	
 	
 	public int getCurrentMovement2()
 	{

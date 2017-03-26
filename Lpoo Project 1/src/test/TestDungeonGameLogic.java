@@ -481,7 +481,7 @@ public class TestDungeonGameLogic
 	public void testDoesOgreDeafeatHero()
 	{
 		Hero theHero = new Hero(2, 5);
-		Ogre theOgre = new Ogre(5, 5, theOgreMovement);
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement, 1);
 		
 		Game game = new Game(map4, theOgreMovement, 1, theHero);
 		
@@ -497,7 +497,7 @@ public class TestDungeonGameLogic
 	@Test
 	public void testOgre()
 	{
-		Ogre theOgre = new Ogre(5, 5, theOgreMovement2);
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement2, 1);
 		
 		theOgre.ogreStepsLever();
 		assertEquals('$', theOgre.getc());
@@ -556,9 +556,9 @@ public class TestDungeonGameLogic
 	@Test
 	public void testClub()
 	{
-		Ogre theOgre = new Ogre(5, 5, theOgreMovement2);
+		Ogre theOgre = new Ogre(5, 5, theOgreMovement2, 1);
 		
-		Club theClub = new Club(5, 5, theOgre, theOgreMovement2);
+		Club theClub = new Club(5, 5, theOgreMovement2, 1);
 		
 		theClub.clubStepsLever();
 		assertEquals('$', theClub.getc());

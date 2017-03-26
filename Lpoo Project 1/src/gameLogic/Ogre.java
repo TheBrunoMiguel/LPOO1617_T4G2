@@ -8,31 +8,56 @@ public class Ogre extends DynamicObject {
 
 	private static char OGRECHAR = 'O';
 	private static char OGRECHAR_ON_LEVER = '$';
-	
+	private static char OGRECHAR_HIT = '8';
+	private int stunLevel = 2;
 
 	private ArrayList<String> ogreMovement = new ArrayList<String>();
 
 	// private int currentMovement;
 
 	private int movementLength;
-	
 
-	public Ogre(int x, int y, String movement[]) {
+	private int ogreID;
+
+	public Ogre(int x, int y, String movement[], int ogreID) {
 		super(x, y, OGRECHAR);
 		// currentMovement = 0;
 		movementLength = movement.length;
 		readmovement(movement);
-		
-		//club = new Club(xClub,yClub,'*');  //criar classe club, geri-la no map
+		this.ogreID = ogreID;
+
+		// club = new Club(xClub,yClub,'*'); //criar classe club, geri-la no map
 	}
-	
-	
+
+	public int getID() {
+		return ogreID;
+	}
+
+	public void getHit() {
+		this.c = OGRECHAR_HIT;
+		setStunZero();
+		System.out.println("You hit an ogre!");
+		}
+	public void notHit(){
+		this.c=OGRECHAR;
+	}
+	public void setStunZero()
+	{
+		stunLevel = 0;
+	}
+	public void incrementStun(){
+		stunLevel=stunLevel+1;
+	}
+	public int returnStun(){
+		return stunLevel;
+	}
+
 	public void ogreStepsLever() {
-		this.c=OGRECHAR_ON_LEVER;
+		this.c = OGRECHAR_ON_LEVER;
 	}
 
 	public void ogreDoesntStepLever() {
-		this.c=OGRECHAR;
+		this.c = OGRECHAR;
 	}
 
 	public String getCurrentMovement() {
@@ -129,15 +154,15 @@ public class Ogre extends DynamicObject {
 	}
 
 	public boolean canOgreMove(ArrayList<GameObject> staticObject, int x, int y) {
-//		else ogreDoesntStepLever();
+		// else ogreDoesntStepLever();
 		for (int i = 0; i < staticObject.size(); i++) {
-			if ((this.getx() + x == ( staticObject.get(i)).getx())
-					&& (this.gety() + y == ( staticObject.get(i)).gety())) {
-				
-				if(staticObject.get(i) instanceof Lever)
-					
+			if ((this.getx() + x == (staticObject.get(i)).getx())
+					&& (this.gety() + y == (staticObject.get(i)).gety())) {
+
+				if (staticObject.get(i) instanceof Lever)
+
 					return true;
-				
+
 				return false;
 			}
 		}
@@ -145,7 +170,11 @@ public class Ogre extends DynamicObject {
 	}
 
 	public void update(ArrayList<GameObject> staticObject) {
-		tryMove(staticObject);
+		incrementStun();
+		if (returnStun() > 2) {  //quando é stunned, stunlevel volta a 1, precisando de 2 rondas pa se mover
+			notHit();
+			tryMove(staticObject);
+		}
 	}
 
 }

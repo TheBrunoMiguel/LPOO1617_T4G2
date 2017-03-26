@@ -1,8 +1,8 @@
 package gui;
 
+import userInterface.Main;
 import gameLogic.Game;
 import gameLogic.Hero;
-import userInterface.Main;
 
 import java.awt.EventQueue;
 
@@ -18,6 +18,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import userInterface.ReadInput;
+
 
 public class graphic {
 
@@ -136,6 +138,7 @@ public class graphic {
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+				int thecurrentmap = 0;
 				int theGuardPersonality = 0;
 				int theNumberOfOgres = (int)Double.parseDouble(textField.getText());
 				String theGuardPers = (String) comboBox.getSelectedItem();
@@ -157,7 +160,7 @@ public class graphic {
 				Hero hero = new Hero(0, 0);
 				
 				
-				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero);
+				Game game = new Game(theGuardPersonality, theNumberOfOgres, hero,  thecurrentmap);
 				
 				textArea.setText(game.getfirstMap().printMap2(hero));
 				
