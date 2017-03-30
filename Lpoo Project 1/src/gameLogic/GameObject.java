@@ -1,5 +1,10 @@
 package gameLogic;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 public class GameObject 
 {
 
@@ -11,7 +16,6 @@ public class GameObject
 		this.x=x;
 		this.y=y;
 		this.c=c;
-		
 	}
 	
 	public int getx()   //metodos/funcoes de GameObject para retornar x,y,c
@@ -28,5 +32,19 @@ public class GameObject
 	}
 	
 	
+	
+	public BufferedImage getCurrentSprite()
+	{
+		try
+		{
+			return ImageIO.read(new File("Sprites/Wall/wall.png"));
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 }

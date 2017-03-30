@@ -240,6 +240,11 @@ public class Game { // vars dde qqr objeto game
 		movehero(c);
 		
 	}
+	
+	public Map getMap()
+	{
+		return maps.get(currentmap);
+	}
 
 	public void movehero(char m) {
 		int x, y;

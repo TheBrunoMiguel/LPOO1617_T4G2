@@ -38,6 +38,19 @@ public class Map {
 	public int getstartx() {
 		return hx;
 	}
+	
+	public ArrayList<GameObject> returnWalls(){
+		
+		ArrayList<GameObject> walls = new ArrayList<GameObject>(); 
+		for(int i=0;i<staticObject.size();i++){
+			if(staticObject.get(i) instanceof Wall)
+			{ 
+				walls.add(staticObject.get(i));
+			}
+			
+		}
+		return walls;
+	}
 
 	public void printObjectHere(Hero hero, int x, int y) {
 		if (x == hero.getx() && y == hero.gety()) {
